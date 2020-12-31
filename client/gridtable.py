@@ -54,6 +54,9 @@ class GridBox(pygame.Rect):
 
         pygame.draw.rect(self.window,GridBox.colors[self.state],self)
 
+    def reset(self):
+        self.state = 0
+
 
 class TableManager:
     window = None
@@ -75,5 +78,9 @@ class TableManager:
         for i in TableManager.GridRectangles:
             i.drawAndUpdate()
 
+    @staticmethod
+    def resetTable():
+        for i in TableManager.GridRectangles:
+            i.reset()
 
 

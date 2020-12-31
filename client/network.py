@@ -65,7 +65,7 @@ class SessionManager:
     @staticmethod
     def killConnection():
         SessionManager.client.shutdown(socket.SHUT_RD)
-        SessionManager.client.send("Gotta Go!".encode())
+        SessionManager.sendRequest("pClient/disconnect")
         SessionManager.client.shutdown(socket.SHUT_RDWR)
         SessionManager.client.close()
 
@@ -100,12 +100,17 @@ class SessionManager:
                     if jsonData["type"] == "Game Start":
                         SessionManager.waiting=False
 
-                    elif jsonData["type"] == "setGridBox":
+                    elif jsonData["type"] == "table/setGridBox":
 
                         SessionManager.gridtable.GridRectangles[jsonData["args"][0]].setState(jsonData["args"][1])
 
-                    elif jsonData["type"] == "setTurn":
+                    elif jsonData["type"] == "player/setTurn":
                         SessionManager.scoreboard.setTurn(jsonData["args"][0])
 
+                    elif jsonData["type"] == "all/reset":
+                        print("Your opponent has disconnected from the game")
+                        SessionManager.scoreboard.reset()
+                        SessionManager.gridtable.resetTable()
 
-        print("Session listener stopped.")
+
+        print("Session listener stopped.",SessionManager.run)

@@ -77,8 +77,7 @@ class GameSession:
         for p in self.players:
             for b in range(9):
                 p.table[b] = 0
-                p.sendData("setGridBox",b,0)
-            print(p.id,p.table)
+                p.sendData("table/setGridBox",b,0)
 
 
     def setGridBox(self,client:clients.pseudoClient,index):
@@ -98,24 +97,19 @@ class GameSession:
                 self.rotatePlayer()
 
 
-    def recieveAndReply(self,client,data):
+    def recieveAndReply(self,client,data,jsonData):
 
         if not data:
+            print(f"[GameSession:{self.id}] Data is {data}. stopping...")
             self.running=False
         else:
-            reply = data.decode().replace("'",'"')
-            for d in reply.split('<!>'):
-                if d == '':
-                    continue
+            print(f"[GameSession:{self.id}] From Player", client.gameId, ":", jsonData)
 
-                print("Player", client.gameId, ":", d)
-                jsonData = json.loads(d)
+            try:
+                self.funcs[jsonData["type"]](client,*jsonData["args"],**jsonData["kwargs"])
 
-                try:
-                    self.funcs[jsonData["type"]](client,*jsonData["args"],**jsonData["kwargs"])
-
-                except KeyError as e:
-                    print("Function not found",e)
+            except KeyError as e:
+                print("Function not found",e)
 
 
     def sendAll(self,type,*a,**kw):
@@ -130,41 +124,70 @@ class GameSession:
 
         for i in self.players:
             i.running=False
-        print("Closing Connection")
+        print(f"[GameSession:{self.id}] Closing Connection")
 
 
 
-    def addPlayer(self,conn):
+    def addPlayer(self,c):
         if len(self.players) < 2:
-            c = clients.pseudoClient(conn, len(self.players) + 1, self.id)
+            c.setGameSession(len(self.players) + 1, self.id,self)
             c.recvCallback = self.recieveAndReply
+
             self.players.append(c)
 
         if len(self.players) > 1:
             self.waiting = False
             self.startGame()
 
+        print(f"\nadded [client:{c.id}] as player: {c.gameId} to game session: {self.id}")
+
+    def killSession(self,rClientId):
+        """
+        :param rClientId: The client that disconnected id
+        """
+        print(f"[GameSession:{self.id}] killSession(): killing")
+        self.running=False
+
+        if rClientId ==1:
+            c = self.players[1]
+        else:
+            c = self.players[0]
+
+        c.reset()
+        del self.players
+
+        setGameSession(c)
+        killGameSession(self.id)
+
+
     def startGame(self):
         self.sendAll("Game Start")
         threading.Thread(target=self.updateLoop).start()
         for i in self.players:
-            i.startListening()
+            i.InActiveGame=True
 
 
 LimboSession=GameSession()
 sessionId+=1
-GameSessions=[]
+GameSessions={}
+
+connecteduserId=0
+connected_users = []
 
 
-def setGameSession(conn):
+def killGameSession(gid):
+    print(f"Current game Sessions: {GameSessions}")
+    del GameSessions[gid]
+
+def setGameSession(pseudoclient):
     global LimboSession,sessionId
     if LimboSession.waiting:
-        LimboSession.addPlayer(conn)
-        GameSessions.append(LimboSession)
+        LimboSession.addPlayer(pseudoclient)
+        GameSessions[LimboSession.id]=LimboSession
     else:
-        LimboSession = GameSession()
         sessionId+=1
-        LimboSession.addPlayer(conn)
+        LimboSession = GameSession()
+        LimboSession.addPlayer(pseudoclient)
 
 
 
@@ -181,5 +204,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     while True:
         conn,addr = s.accept()
         print("Connected to:",addr)
-
-        setGameSession(conn)
+        connected_users.append(clients.pseudoClient(conn,connecteduserId))
+        setGameSession(connected_users[-1])
+        connecteduserId+=1

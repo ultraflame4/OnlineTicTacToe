@@ -25,7 +25,7 @@ while run:
     other.EventManager.update()
     if other.EventManager.quit:
         network.SessionManager.run=False
-
+        print("Killed session manager")
         network.SessionManager.killConnection()
         run = False
 

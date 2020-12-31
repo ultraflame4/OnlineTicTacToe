@@ -22,12 +22,17 @@ class EventManager:
         EventManager.quit=False
         EventManager.MouseUp=False
 
+
 class PlayerTurnDisplay(pygame.rect.Rect):
     colors = {1:(160, 255, 160),2:(255, 160, 160),3:(10, 255, 90),4:(255, 40, 85)}
     def __init__(self,win):
         self.win = win
         pygame.rect.Rect.__init__(self,370,10,220,350)
         self.color = (255,255,255)
+
+    def reset(self):
+        self.color = (255, 255, 255)
+
 
     def setTurn(self,turn):
         self.color = PlayerTurnDisplay.colors[turn]

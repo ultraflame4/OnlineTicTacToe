@@ -1,3 +1,4 @@
+import json
 import threading
 import socket
 import traceback
@@ -13,18 +14,39 @@ def invoke(secs,func):
     threading.Thread(target=invokeworker,args=(secs,func)).start()
 
 class pseudoClient:
-    def __init__(self,conn,id,gid):
-        self.GameSessionId = gid
+    def __init__(self,conn,id):
         self.conn:socket.socket = conn
-        self.gameId = id
+
+        self.GameSessionId = None
+        self.gameId = None
+        self.gameSession=None
+
         self.recvCallback = pseudoClient.dummyFunc
         self.thread=threading.Thread(target=self.recieveListener)
+
         self.running = True
+        self.InActiveGame=False
 
-
-        self.id = f"{self.GameSessionId}X{self.gameId}"
+        self.id = id
 
         self.table = [0 for i in range(9)]
+
+        self.startListening()
+
+    def reset(self):
+        self.GameSessionId = None
+        self.gameId = None
+        self.gameSession=None
+        self.recvCallback = pseudoClient.dummyFunc
+        self.running = True
+        self.InActiveGame=False
+        self.table = [0 for i in range(9)]
+        self.sendData("all/reset")
+
+    def setGameSession(self,gameId,sessionId,session):
+        self.GameSessionId = sessionId
+        self.gameId = gameId
+        self.gameSession = session
 
 
     def checkWin(self):
@@ -67,14 +89,35 @@ class pseudoClient:
         while self.running:
             try:
                 data = self.conn.recv(2048)
-                self.recvCallback(self,data)
+                reply = data.decode().replace("'", '"')
+
+                for d in reply.split('<!>'):
+                    if d == '':
+                        continue
+                    print(d)
+                    jsonData = json.loads(d)
+                    print(f"\nFrom Client:{self.id}..{jsonData}")
+                    if jsonData["type"] == "pClient/disconnect":
+                        print(f"Client {self.id}:","Says goodbye")
+                        self.running=False
+                        print(f"Client {self.id}: stopping")
+                        self.gameSession.killSession(self.gameId)
+                        continue
+
+
+
+
+                    if self.InActiveGame:
+                        self.recvCallback(self,data,jsonData)
 
             except Exception as e:
+                print(f"[PClient:{self.id}] Error at recieveListener")
                 print("An Error Has Occured:",e)
                 traceback.print_tb(e.__traceback__)
                 self.running=False
                 break
 
+        print(f"[PClient:{self.id}] Closing socket")
         self.conn.close()
 
     def setGridBox(self,index,gameId):
@@ -82,14 +125,16 @@ class pseudoClient:
         if gameId != self.gameId:
             state = 4
 
-        self.sendData("setGridBox",index,state)
+
+
+        self.sendData("table/setGridBox",index,state)
 
     def setTurn(self,gameId):
         state = 1
         if gameId != self.gameId:
             state = 2
 
-        self.sendData("setTurn",state)
+        self.sendData("player/setTurn",state)
 
 
     def sendData(self,type, *args, **kwargs):
@@ -98,5 +143,6 @@ class pseudoClient:
             "args":list(args),
             "kwargs": kwargs
             }
-        print(f"Client:{self.id}..","Sending:",data)
+        print(f"\nSending to Client:{self.id}..",data)
+
         self.conn.send((str(data)+"<!>").replace("'",'"').encode())
