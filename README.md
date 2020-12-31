@@ -20,11 +20,20 @@ that can be hosted and played
 pip install pygame
 ```
 
-3. Install this repository with pip
+3. Install with pip
 
-```
+``
 pip install https://github.com/ultraflame4/OnlineTicTacToe/archive/master.zip
-```
+``
+
+**or**
+
+( May require git to be installed)
+
+``
+pip install git+https://github.com/ultraflame4/OnlineTicTacToe/
+``
+
 
 5. Host or Play!
 
