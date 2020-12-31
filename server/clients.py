@@ -22,13 +22,13 @@ class pseudoClient:
         self.gameSession=None
 
         self.recvCallback = pseudoClient.dummyFunc
-        self.thread=threading.Thread(target=self.recieveListener)
 
         self.running = True
         self.InActiveGame=False
 
         self.id = id
 
+        self.thread=threading.Thread(target=self.recieveListener,name=f"[Client:{self.id}-Thread]")
         self.table = [0 for i in range(9)]
 
         self.startListening()
@@ -86,6 +86,7 @@ class pseudoClient:
 
 
     def recieveListener(self):
+        print(f"[PClient:{self.id}] running:{self.running}")
         while self.running:
             try:
                 data = self.conn.recv(2048)
@@ -114,10 +115,9 @@ class pseudoClient:
                 print(f"[PClient:{self.id}] Error at recieveListener")
                 print("An Error Has Occured:",e)
                 traceback.print_tb(e.__traceback__)
-                self.running=False
                 break
 
-        print(f"[PClient:{self.id}] Closing socket")
+        print(f"[PClient:{self.id}] Closing socket. [running: {self.running}]")
         self.conn.close()
 
     def setGridBox(self,index,gameId):

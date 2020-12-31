@@ -83,14 +83,14 @@ class SessionManager:
             print("Running")
             data = SessionManager.client.recv(2048).decode()
             if not data:
+                print(f"ERROR: Data is {repr(data)}. stopping...")
                 break
+
 
             else:
                 for d in data.split("<!>"):
                     if d == '':
                         continue
-
-                    print("loading",d)
 
                     jsonData = json.loads(d)
 
@@ -113,4 +113,4 @@ class SessionManager:
                         SessionManager.gridtable.resetTable()
 
 
-        print("Session listener stopped.",SessionManager.run)
+        print("Session listener stopped.")

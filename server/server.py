@@ -55,6 +55,7 @@ class GameSession:
 
         for i in self.players:
             i.setTurn(self.playerTurn)
+            print(f"Client:{i.id} : running: {i.running}")
 
 
     def printTable(self):
@@ -122,13 +123,14 @@ class GameSession:
         while self.running:
             pass
 
-        for i in self.players:
-            i.running=False
+
+
         print(f"[GameSession:{self.id}] Closing Connection")
 
 
 
     def addPlayer(self,c):
+        c.reset()
         if len(self.players) < 2:
             c.setGameSession(len(self.players) + 1, self.id,self)
             c.recvCallback = self.recieveAndReply
@@ -140,24 +142,37 @@ class GameSession:
             self.startGame()
 
         print(f"\nadded [client:{c.id}] as player: {c.gameId} to game session: {self.id}")
+        print(f"\nClient {c.id} running: {c.running}")
 
     def killSession(self,rClientId):
         """
         :param rClientId: The client that disconnected id
         """
-        print(f"[GameSession:{self.id}] killSession(): killing")
-        self.running=False
+        if not self.waiting:
+            print(f"[GameSession:{self.id}] killSession(): killing")
+            self.running=False
 
-        if rClientId ==1:
-            c = self.players[1]
+            for i in self.players:
+                i.running=False
+
+
+            if rClientId ==1:
+                c = self.players[1]
+            else:
+                c = self.players[0]
+
+
+            del self.players
+
+
+            c.reset()
+
+            setGameSession(c)
+            killGameSession(self.id)
+
         else:
-            c = self.players[0]
-
-        c.reset()
-        del self.players
-
-        setGameSession(c)
-        killGameSession(self.id)
+            print(f"Current game Sessions: {GameSessions}")
+            self.players=[]
 
 
     def startGame(self):
@@ -177,6 +192,7 @@ connected_users = []
 
 def killGameSession(gid):
     print(f"Current game Sessions: {GameSessions}")
+
     del GameSessions[gid]
 
 def setGameSession(pseudoclient):
