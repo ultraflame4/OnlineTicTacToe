@@ -19,11 +19,6 @@ To host a server, run server.py with python in the server directory
 
 To join a server, run client_main.py with python in the client directory
 
-```
-cd client
-python client_main.py
-```
-
 
 ## Dependencies
 * pygame
