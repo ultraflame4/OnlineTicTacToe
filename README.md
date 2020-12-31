@@ -41,13 +41,10 @@ pip install git+https://github.com/ultraflame4/OnlineTicTacToe/
 ### Instructions
 
 To host a server,
-
-run server.py with python in the server directory
+``python -m OnlineTicTacToe server``
 
 To join a server,
-
-run client_main.py with python in the client directory
-
+``python -m OnlineTicTacToe server client``
 
 ## Dependencies
 * pygame
