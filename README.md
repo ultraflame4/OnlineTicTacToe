@@ -23,7 +23,7 @@ pip install pygame
 3. Install this repository with pip
 
 ```
-pip install https://github.com/ultraflame4/OnlineTicTacToe.git
+pip install https://github.com/ultraflame4/OnlineTicTacToe/archive/master.zip
 ```
 
 5. Host or Play!
