@@ -15,12 +15,7 @@ that can be hosted and played
 
 1. Download python 3.9
 
-2. Install pygame with pip
-```
-pip install pygame
-```
-
-3. Install with pip
+2. Install with pip
 
 ``
 pip install https://github.com/ultraflame4/OnlineTicTacToe/archive/master.zip
@@ -35,7 +30,7 @@ pip install git+https://github.com/ultraflame4/OnlineTicTacToe/
 ``
 
 
-5. Host or Play!
+3. Host or Play!
 
 
 ### Instructions
