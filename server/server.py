@@ -73,6 +73,16 @@ class GameSession:
                 p.table[i]=gameId
                 p.setGridBox(i,gameId)
 
+    def checkTie(self):
+        c=0
+        for i in self.table:
+            if i != 0:
+                c +=1
+
+        if c >= 9:
+            return True
+        return False
+
 
     def clearTable(self):
         self.table = [0 for i in range(9)]
@@ -95,6 +105,8 @@ class GameSession:
                 if client.checkWin():
                     self.setTable(client.gameId)
                     clients.invoke(1,self.clearTable)
+                elif self.checkTie():
+                    clients.invoke(0.5,self.clearTable)
 
                 self.rotatePlayer()
 
