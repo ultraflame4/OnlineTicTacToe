@@ -15,17 +15,9 @@ pip install pygame
 
 ### Instructions
 
-To host a server, run server.py in the server directory
+To host a server, run server.py with python in the server directory
 
-Example:
-
-```
-cd server
-python server.py
-```
-
-
-To join a server, run client_main.py in the client directory
+To join a server, run client_main.py with python in the client directory
 
 ```
 cd client
