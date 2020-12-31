@@ -6,9 +6,12 @@ that can be hosted and played
 
 1. Download this repository
 2. Extract the downloaded zip file to a folder
-3. Use the executables in the "dist" folder
+3. Use the executables in the "standalones" folder 
+   
+   Note: the executables will only work for windows
 
-    **or**
+
+ **or**
 
 1. Download python 3.9
 
