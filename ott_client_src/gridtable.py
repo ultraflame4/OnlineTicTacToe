@@ -2,6 +2,7 @@ import pygame
 from . import network
 from . import other
 
+
 class GridBox(pygame.Rect):
     boxSize = 110
     offset = 10

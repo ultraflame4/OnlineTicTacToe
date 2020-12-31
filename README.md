@@ -15,14 +15,16 @@ that can be hosted and played
 
 1. Download python 3.9
 
-2. Install pygame
+2. Install pygame with pip
 ```
 pip install pygame
 ```
 
-3. Download this repository
+3. Install this repository with pip
 
-4. Extract the downloaded zip file to a folder
+```
+pip install https://github.com/ultraflame4/OnlineTicTacToe.git
+```
 
 5. Host or Play!
 

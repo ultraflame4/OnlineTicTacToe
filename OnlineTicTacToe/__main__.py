@@ -9,11 +9,11 @@ else:
     arg = sys.argv[1]
     if arg == "client":
         print("Launching client...")
-        from client_src import client_main
-
+        from ott_client_src import client_main
     elif arg == "server":
         print("Launching server...")
-        from server_src import server_main
+        from ott_server_src import server_main
+
     else:
         print("\nInvalid argument")
         print("Expected 'client' or 'server'")

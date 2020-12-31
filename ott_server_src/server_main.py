@@ -1,8 +1,8 @@
-import json
 import socket
 import threading
 import typing
 from . import clients
+
 
 def askuntilrecieve(prompt):
     while True:
@@ -92,7 +92,7 @@ class GameSession:
                 p.sendData("table/setGridBox",b,0)
 
 
-    def setGridBox(self,client:clients.pseudoClient,index):
+    def setGridBox(self, client: clients.pseudoClient, index):
         if self.playerTurn == client.gameId:
             if self.table[index] == 0:
                 self.table[index] = client.gameId
@@ -104,9 +104,9 @@ class GameSession:
 
                 if client.checkWin():
                     self.setTable(client.gameId)
-                    clients.invoke(1,self.clearTable)
+                    clients.invoke(1, self.clearTable)
                 elif self.checkTie():
-                    clients.invoke(0.5,self.clearTable)
+                    clients.invoke(0.5, self.clearTable)
 
                 self.rotatePlayer()
 
@@ -231,6 +231,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     while True:
         conn,addr = s.accept()
         print("Connected to:",addr)
-        connected_users.append(clients.pseudoClient(conn,connecteduserId,addr))
+        connected_users.append(clients.pseudoClient(conn, connecteduserId, addr))
         setGameSession(connected_users[-1])
         connecteduserId+=1

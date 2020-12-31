@@ -3,7 +3,6 @@ from . import gridtable
 from . import network
 from . import other
 
-
 network.SessionManager.serverinfo_input()
 
 
