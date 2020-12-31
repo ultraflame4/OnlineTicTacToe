@@ -28,7 +28,7 @@ pip install https://github.com/ultraflame4/OnlineTicTacToe/archive/master.zip
 
 **or**
 
-( May require git to be installed)
+( May need git to be installed )
 
 ``
 pip install git+https://github.com/ultraflame4/OnlineTicTacToe/
