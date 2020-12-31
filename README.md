@@ -9,6 +9,7 @@ that can be hosted and played
 3. Use the executables in the "standalones" folder 
    
    Note: the executables will only work for windows
+   
    ( And windows defender and other antivirus will definately be triggered [Thus download fails, try again])
 
 
