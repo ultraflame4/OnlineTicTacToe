@@ -14,7 +14,7 @@ def invoke(secs,func):
     threading.Thread(target=invokeworker,args=(secs,func)).start()
 
 class pseudoClient:
-    def __init__(self,conn,id):
+    def __init__(self,conn,id,addr):
         self.conn:socket.socket = conn
 
         self.GameSessionId = None
@@ -25,7 +25,7 @@ class pseudoClient:
 
         self.running = True
         self.InActiveGame=False
-
+        self.addr = addr
         self.id = id
 
         self.thread=threading.Thread(target=self.recieveListener,name=f"[Client:{self.id}-Thread]")
@@ -99,9 +99,8 @@ class pseudoClient:
                     jsonData = json.loads(d)
                     print(f"\nFrom Client:{self.id}..{jsonData}")
                     if jsonData["type"] == "pClient/disconnect":
-                        print(f"Client {self.id}:","Says goodbye")
                         self.running=False
-                        print(f"Client {self.id}: stopping")
+                        print(f"Client {self.id}: Goodbye")
                         self.gameSession.killSession(self.gameId)
                         continue
 
@@ -117,7 +116,7 @@ class pseudoClient:
                 traceback.print_tb(e.__traceback__)
                 break
 
-        print(f"[PClient:{self.id}] Closing socket. [running: {self.running}]")
+        print(f"[Client:{self.id}] Closing socket. [running: {self.running}]")
         self.conn.close()
 
     def setGridBox(self,index,gameId):

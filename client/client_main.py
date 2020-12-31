@@ -6,7 +6,7 @@ import network
 import other
 
 
-# network.SessionManager.serverinfo_input()
+network.SessionManager.serverinfo_input()
 
 
 

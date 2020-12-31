@@ -22,13 +22,14 @@ def askWithdefault(prompt,default):
 
 run = True
 
-"""
+
 server=askWithdefault("Server ip: ",'localhost')
 port = int(askWithdefault("Server port: ",str(8888)))
+
 """
 server="localhost"
 port=8888
-
+"""
 serverip = socket.gethostbyname(server)
 
 sessionId=0
@@ -55,7 +56,7 @@ class GameSession:
 
         for i in self.players:
             i.setTurn(self.playerTurn)
-            print(f"Client:{i.id} : running: {i.running}")
+            #print(f"Client:{i.id} : running: {i.running}")
 
 
     def printTable(self):
@@ -171,7 +172,6 @@ class GameSession:
             killGameSession(self.id)
 
         else:
-            print(f"Current game Sessions: {GameSessions}")
             self.players=[]
 
 
@@ -191,7 +191,6 @@ connected_users = []
 
 
 def killGameSession(gid):
-    print(f"Current game Sessions: {GameSessions}")
 
     del GameSessions[gid]
 
@@ -220,6 +219,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
     while True:
         conn,addr = s.accept()
         print("Connected to:",addr)
-        connected_users.append(clients.pseudoClient(conn,connecteduserId))
+        connected_users.append(clients.pseudoClient(conn,connecteduserId,addr))
         setGameSession(connected_users[-1])
         connecteduserId+=1
