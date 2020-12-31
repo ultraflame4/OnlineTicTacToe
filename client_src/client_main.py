@@ -1,9 +1,7 @@
-import socket
-
 import pygame
-import gridtable
-import network
-import other
+from . import gridtable
+from . import network
+from . import other
 
 
 network.SessionManager.serverinfo_input()

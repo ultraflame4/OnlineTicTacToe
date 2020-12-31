@@ -1,6 +1,6 @@
 import pygame
-import network
-import other
+from . import network
+from . import other
 
 class GridBox(pygame.Rect):
     boxSize = 110

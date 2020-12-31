@@ -2,7 +2,7 @@ import json
 import socket
 import threading
 import typing
-import clients
+from . import clients
 
 def askuntilrecieve(prompt):
     while True:
