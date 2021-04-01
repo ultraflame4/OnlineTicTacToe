@@ -2,6 +2,11 @@
 This is a multiplayer TicTacToe
 that can be hosted and played
 
+
+## Branch: Rewrite
+This branch , as the name suggests, for the rewrite of the source code.
+
+
 ### Installation instructions
 
 1. Download this repository
