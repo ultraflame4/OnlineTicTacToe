@@ -1,11 +1,18 @@
 # OnlineTicTacToe
+
+
 This is a multiplayer TicTacToe
 that can be hosted and played
 
+## Rewrite branch.
+This branch is **incompaitable** with other older versions
+This is due to changes in protocol for client-serve communication
+This rewrite version will also switch to a html-based client and 
+the server code will be completely rewritten from scratch
 
-## Branch: Rewrite
-This branch , as the name suggests, for the rewrite of the source code.
+This rewrite will also change the required dependencies.
 
+Its basically almost a new project
 
 ### Installation instructions
 
