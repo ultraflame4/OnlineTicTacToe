@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <link rel="stylesheet" href="../static/css/reset.css">
-    <link rel="stylesheet" href="../static/css/clientGui.css">
+    <link rel="stylesheet" href="../static/css/gridSquare.css">
+    <link rel="stylesheet" href="../static/css/configmenu.css">
     <script type="text/javascript" src="../static/js/gridTable.js"></script>
-  <title>Title</title>
+    <script type="text/javascript" src="../static/js/configmenu.js"></script>
+    <title>Title</title>
 </head>
 <body>
-<div id="gridTable">
+<div class="row">
+    <div id="gridTable" class="column"></div>
+    <div id="configmenu" class="column">
+        <div id="tabButton">
+            <button type="button" id="menuPlayButton" class="menuButton" data-state="inactive" onclick="playMenuButton(this)">Play</button>
+            <button type="button" id="menuHostButton" class="menuButton" data-state="inactive" onclick="hostMenuButton(this)">Host</button>
+            <button type="button" id="menuGameButton" class="menuButton" data-state="inactive" onclick="gameMenuButton(this)">Game</button>
+        </div>
+        
+        
+        <div id="joinMenuPage" class="menuPage" hidden="hidden">
+            <div class="row">
+                
+                <label for="serverip">Server Address</label>
+                <input type="text" id="serverip" placeholder="Enter the server ip address">
+            </div>
+            
+            <div class="row">
+                <label for="serverport">Server Port</label>
+                <input type="text" id="serverport" placeholder="Enter the server port">
+            </div>
+            <div class="row">
+                
+                    <button id="serveripJoinButton" type="button">Join</button>
+                
+            </div>
+        
+        
+        </div>
     
-    <button type="button" class="gridSquare" data-index="0" onclick="squareClick(this)">1</button>
-    <button type="button" class="gridSquare" data-index="1" onclick="squareClick(this)">2</button>
-    <button type="button" class="gridSquare" data-index="2" onclick="squareClick(this)">3</button>
-    <br>
-    <button type="button" class="gridSquare" data-index="3" onclick="squareClick(this)">4</button>
-    <button type="button" class="gridSquare" data-index="4" onclick="squareClick(this)">5</button>
-    <button type="button" class="gridSquare" data-index="5" onclick="squareClick(this)">6</button>
-    <br>
-    <button type="button" class="gridSquare" data-index="6" onclick="squareClick(this)">7</button>
-    <button type="button" class="gridSquare" data-index="7" onclick="squareClick(this)">8</button>
-    <button type="button" class="gridSquare" data-index="8" onclick="squareClick(this)">9</button>
+    
+    </div>
 </div>
 </body>
 </html>
