@@ -1,2 +1,8 @@
 TODO:
 - add gui for player name. (in game menu above server info?)
+
+- Use pyodide (https://github.com/pyodide/pyodide) To run python in web for the server
+WARNING: WHEN USING PYODIDE MAKE SURE IT IS READY. src= https://pyodide.org/en/0.17.0a2/usage/quickstart.html#startup
+
+
+- cdn https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/pyodide.js
