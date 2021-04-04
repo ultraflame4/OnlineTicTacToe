@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded",function () {
-    document.getElementById("menuPlayButton").click()
+    document.getElementById("menuJoinButton").click()
 })
 
 
@@ -21,7 +21,7 @@ function resetMenuPages(){
     }
 }
 
-function playMenuButton(tag){
+function JoinMenuButton(tag){
     resetMenuButtons()
     resetMenuPages()
     tag.dataset.state="active"
