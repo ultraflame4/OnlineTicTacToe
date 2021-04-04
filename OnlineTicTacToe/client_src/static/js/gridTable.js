@@ -1,0 +1,63 @@
+/*
+Grid Square States:
+0 - unselected / neutral
+1 - Friendly
+2 - Enemy
+ */
+
+
+function generateSquare(index){
+    let sqr = document.createElement("button")
+    sqr.type = "button"
+    sqr.className="gridSquare"
+    sqr.textContent=index
+    sqr.setAttribute("onclick","squareClick(this)")
+    sqr.setAttribute("data-index",index)
+
+    sqr.setAttribute("data-state","0")
+    return sqr
+}
+
+
+
+var tableSquares = []
+function generateGridTable(){
+    tableSquares = []
+    var gridTable  = document.getElementById("gridTable")
+
+    for (i=0;i<9;i++){
+        let s = generateSquare(i.toString())
+
+        tableSquares.push(s)
+        gridTable.appendChild(s)
+
+        var spacer = document.createElement('div')
+        if ((i+1)%3==0 && i > 0){
+            gridTable.appendChild(document.createElement('br'))
+            spacer.className="gridSquareSpacerV"
+        }
+
+
+        else{
+            spacer.className="gridSquareSpacerH"
+        }
+        if (i<8) {
+            gridTable.appendChild(spacer)
+        }
+    }
+}
+
+document.addEventListener("DOMContentLoaded",function () {
+    generateGridTable()
+})
+
+function getSquareByIndex(index){
+    return tableSquares[index]
+
+}
+
+function squareClick(squareTag){
+    var index = squareTag.dataset.index
+    squareTag.dataset.state = "1"
+    console.log(index)
+}

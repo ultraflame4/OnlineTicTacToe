@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/reset.css">
+    <link rel="stylesheet" href="../static/css/gridSquare.css">
+    <link rel="stylesheet" href="../static/css/configmenu.css">
+    <script type="text/javascript" src="../static/js/gridTable.js"></script>
+    <script type="text/javascript" src="../static/js/configmenu.js"></script>
+    <title>Title</title>
+</head>
+<body>
+<div class="row">
+    <div id="gridTable" class="column"></div>
+    <div id="configmenu" class="column">
+        <div id="tabButton">
+            <button type="button" id="menuPlayButton" class="menuButton" data-state="inactive" onclick="playMenuButton(this)">Play</button>
+            <button type="button" id="menuHostButton" class="menuButton" data-state="inactive" onclick="hostMenuButton(this)">Host</button>
+            <button type="button" id="menuGameButton" class="menuButton" data-state="inactive" onclick="gameMenuButton(this)">Game</button>
+        </div>
+        
+        
+        <div id="joinMenuPage" class="menuPage" hidden="hidden">
+            <div class="row">
+                
+                <label for="serverip">Server Address</label>
+                <input type="text" id="serverip" placeholder="Enter the server ip address">
+            </div>
+            
+            <div class="row">
+                <label for="serverport">Server Port</label>
+                <input type="text" id="serverport" placeholder="Enter the server port">
+            </div>
+            <div class="row">
+                
+                    <button id="serveripJoinButton" type="button">Join</button>
+                
+            </div>
+        
+        
+        </div>
+    
+    
+    </div>
+</div>
+</body>
+</html>

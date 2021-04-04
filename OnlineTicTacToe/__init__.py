@@ -1,3 +1,1 @@
-from . import *
-def test(s):
-    print("Hi",s)
+from . import client_src

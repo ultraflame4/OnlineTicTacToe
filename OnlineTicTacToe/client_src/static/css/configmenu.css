@@ -1,0 +1,42 @@
+
+#configmenu{
+    display: inline;
+    padding: 3vmin;
+    height: 100vh;
+    width: fit-content;
+}
+
+
+
+.menuButton[data-state="active"]{
+    background-color: #b0b0b0;
+    padding: 3vmin 5vmin;
+
+}
+
+.menuButton[data-state="inactive"]{
+
+}
+
+
+#serverip,#serverport{
+
+    width: 70vmin;
+    height: 4vmin;
+    font-size: 3vmin;
+    float: right;
+    padding: 2vmin;
+    margin: 1vmin;
+    border: #454545;
+
+
+
+}
+
+#serveripJoinButton{
+
+    padding: 2vmin;
+    margin-top: 1vmin;
+    width: 100%;
+
+}
