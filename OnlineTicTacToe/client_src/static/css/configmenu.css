@@ -2,7 +2,7 @@
 #configmenu{
     display: inline;
     padding: 3vmin;
-    height: 100vh;
+    height: fit-content;
     width: fit-content;
 }
 

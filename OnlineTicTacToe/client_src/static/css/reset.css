@@ -39,6 +39,14 @@ button {
   padding: 2vmin 5vmin;
 }
 
+footer{
+  display: flex;
+  color:  #a3a3a3;
+  justify-content: center;
+  margin: 2em 1em;
+}
+
+
 input {
   display: table;
   background-color: #a3a3a3;
@@ -49,6 +57,10 @@ input {
 
   float: left;
 
+}
+
+.row{
+  height: fit-content;
 }
 
 .row:after {
