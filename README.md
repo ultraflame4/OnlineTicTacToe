@@ -14,8 +14,9 @@ This rewrite will also change the required dependencies.
 
 Its basically almost a new project
 
-### Installation instructions
 <strike>
+### Installation instructions
+
 1. Download this repository
 2. Extract the downloaded zip file to a folder
 3. Use the executables in the "standalones" folder 
