@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="OnlineTicTacToe", # Replace with your own username
-    version="2.0.0",
+    version="1.0.0",
     author="ultraflame4",
     description="A hostable online multiplayer TicTacToe",
     url="https://github.com/ultraflame4/OnlineTicTacToe",
@@ -15,5 +15,6 @@ setuptools.setup(
     ],
     python_requires='>=3.8',
     install_requires=[
+        "pygame"
         ]
 )
