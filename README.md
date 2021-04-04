@@ -48,9 +48,7 @@ pip install git+https://github.com/ultraflame4/OnlineTicTacToe/
 
 
 5. Host or Play!
-</strike>
 
-This version is currently unplayable
 
 ### Instructions
 
@@ -60,5 +58,9 @@ To host a server,
 To join a server,
 ``python -m OnlineTicTacToe server client``
 
+</strike>
+
+This version is currently unplayable
+
 ## Dependencies
-* pygame
+* cefpython
