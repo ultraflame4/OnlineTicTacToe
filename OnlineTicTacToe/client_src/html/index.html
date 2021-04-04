@@ -13,39 +13,85 @@
 <div class="row">
     <div id="gridTable" class="column"></div>
     <div id="configmenu" class="column">
+        <!-- Menu tab Buttons -->
         <div id="tabButton">
-            <button type="button" id="menuJoinButton" class="menuButton" data-state="inactive" onclick="JoinMenuButton(this)">Join</button>
-            <button type="button" id="menuHostButton" class="menuButton" data-state="inactive" onclick="hostMenuButton(this)">Host</button>
-            <button type="button" id="menuGameButton" class="menuButton" data-state="inactive" onclick="gameMenuButton(this)">Game</button>
+            <button type="button" id="menuMainButton" class="menuButton" data-state="inactive"
+                    onclick="MainMenuButton()">Main Menu
+            </button>
+            <button type="button" id="menuGameButton" class="menuButton" data-state="inactive"
+                    onclick="gameMenuButton()">Game
+            </button>
+            <button type="button" id="menuJoinButton" class="menuButton" data-state="inactive"
+                    onclick="JoinMenuButton()">Join
+            </button>
+            <button type="button" id="menuHostButton" class="menuButton" data-state="inactive"
+                    onclick="hostMenuButton()">Host
+            </button>
+            
+        </div>
+        
+        <!-- Join Menu Page -->
+        <div id="joinMenuPage" class="menuPage" hidden="hidden">
+            <div class="row">
+                <label class="label-input" for="serverip">Server Address</label>
+                <input class="input-label" type="text" id="serverip" placeholder="Enter the server ip address">
+            </div>
+            <div class="row">
+                <label class="label-input" for="serverport">Server Port</label>
+                <input class="input-label" type="text" id="serverport" placeholder="Enter the server port">
+            </div>
+            <div class="row">
+                <button id="serveripJoinButton" type="button">Join</button>
+            </div>
+            
         </div>
         
         
-        <div id="joinMenuPage" class="menuPage" hidden="hidden">
+        <!-- Main Menu Page -->
+        <div id="MainMenuPage" class="menuPage" hidden="hidden">
+        
             <div class="row">
-                
-                <label for="serverip">Server Address</label>
-                <input type="text" id="serverip" placeholder="Enter the server ip address">
+                <h1 class="MMButtonlabel" for="MMPlay">Singleplayer</h1>
+                <button type="button" id="MMPlay" class="MMbutton">Play</button>
             </div>
             
             <div class="row">
-                <label for="serverport">Server Port</label>
-                <input type="text" id="serverport" placeholder="Enter the server port">
+                <h1 class="MMButtonlabel">Multiplayer</h1>
+                <button type="button" id="MMJoin" class="MMbutton" onclick="JoinMenuButton()">Join Game</button>
+
+                <button type="button" id="MMHost" class="MMbutton" onclick="hostMenuButton()">Host & Play</button>
             </div>
-            <div class="row">
-                
-                    <button id="serveripJoinButton" type="button">Join</button>
-                
-            </div>
-        
-        
         </div>
     
-    
+        <!-- Host Menu Page -->
+        <div id="HostMenuPage" class="menuPage" hidden="hidden">
+            <div class="row">
+                <label class="label-input" for="hostserverport">Host Server Port</label>
+                <input class="input-label" type="text" id="hostserverport" placeholder="Enter host server port (Leave blank for auto)">
+            </div>
+            <div class="row">
+                <button type="button" class="MMbutton" id="HMhost">Host Game</button>
+            </div>
+        </div>
+        
+        <!-- Game info menu page -->
+        <div id="GameMenuPage" class="menuPage" hidden="hidden">
+
+            <div class="row">
+                <label class="label-input gmmlabel" for="gmmserverip">Server Address</label>
+                <input class="input-label gmminput" type="text" id="gmmserverip" value="N/A" disabled>
+            </div>
+            <div class="row">
+                <label class="label-input gmmlabel" for="gmmserverport">Server Port</label>
+                <input class="input-label gmminput" type="text" id="gmmserverport" value="N/A" disabled>
+            </div>
+        </div>
+        
     </div>
 </div>
 <footer>
     <p>Creator: ultr42 | Github: <a href="https://github.com/ultraflame4">github.com/ultraflame4</a>
-        | Website: <a href="https://ultraflame4.github.io/">https://ultraflame4.github.io/</a></p>
+        | Website: <a href="https://ultraflame4.github.io/">ultraflame4.github.io/</a></p>
 </footer>
 </body>
 </html>

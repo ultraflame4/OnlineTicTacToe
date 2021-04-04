@@ -1,6 +1,6 @@
 
 document.addEventListener("DOMContentLoaded",function () {
-    document.getElementById("menuJoinButton").click()
+    document.getElementById("menuMainButton").click()
 })
 
 
@@ -21,27 +21,25 @@ function resetMenuPages(){
     }
 }
 
-function JoinMenuButton(tag){
+function openMenu(menuId,tagId){
     resetMenuButtons()
-    resetMenuPages()
-    tag.dataset.state="active"
-    document.getElementById("joinMenuPage").removeAttribute("hidden")
-
-
+    resetMenuPages();
+    document.getElementById(tagId).dataset.state="active"
+    if (menuId!="none")
+        document.getElementById(menuId).removeAttribute("hidden")
 }
-function hostMenuButton(tag){
-    resetMenuButtons()
-    resetMenuPages()
-    tag.dataset.state="active"
 
 
-
+function MainMenuButton(){
+    openMenu("MainMenuPage","menuMainButton")
 }
-function gameMenuButton(tag){
-    resetMenuButtons()
-    resetMenuPages()
-    tag.dataset.state="active"
 
-
-
+function JoinMenuButton(){
+    openMenu("joinMenuPage","menuJoinButton")
+}
+function hostMenuButton(){
+    openMenu("HostMenuPage","menuHostButton")
+}
+function gameMenuButton(){
+    openMenu("GameMenuPage","menuGameButton")
 }

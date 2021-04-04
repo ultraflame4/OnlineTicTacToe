@@ -3,23 +3,53 @@
     display: inline;
     padding: 3vmin;
     height: fit-content;
-    width: fit-content;
+    width: 115vmin;
 }
 
 
 
 .menuButton[data-state="active"]{
-    background-color: #b0b0b0;
+    background-color: #cdcdcd;
     padding: 3vmin 5vmin;
 
 }
 
-.menuButton[data-state="inactive"]{
+.menuButton{
+    margin-bottom: 3vmin;
+}
+
+.menuButton[data-state="inactive"]:hover{
+    padding: 2.5vmin 5vmin;
+}
+
+.label-input{
+    float: left;
+    padding: 2vmin 4vmin;
+    font-size: 4vmin;
+}
+
+
+
+
+
+/*Main Menu*/
+.MMbutton{
+    margin-bottom: 1vmin;
+    margin-top: 1vmin;
+    width: 100%;
+}
+
+h1.MMButtonlabel{
+    font-size: 5vmin;
+    padding: 2vmin;
 
 }
 
 
-#serverip,#serverport{
+
+/*Join menu*/
+
+.input-label{
 
     width: 70vmin;
     height: 4vmin;
@@ -38,5 +68,19 @@
     padding: 2vmin;
     margin-top: 1vmin;
     width: 100%;
+
+}
+
+
+/*Game Menu*/
+.gmmlabel{
+    font-size: 3.5vmin;
+    padding-right: 2vmin;
+    margin-right: 1vmin;
+}
+.gmminput{
+    text-align: center;
+    font-size: 2.5vmin;
+    padding: 1.5vmin;
 
 }

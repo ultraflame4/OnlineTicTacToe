@@ -2,30 +2,13 @@
   font-family: "Segoe UI",Arial,sans-serif;
   margin:0;
   padding: 0;
+  outline: none;
 
 }
 
 body{
   background-color: #555555;
 }
-
-button:hover{
-  background-color: #eeeeee;
-
-}
-
-input:hover{
-  background-color: #eeeeee;
-}
-
-text,label{
-
-  float: left;
-  font-size: 4vmin;
-  color:  #a3a3a3;
-  padding: 2vmin 4vmin;
-}
-
 
 
 button {
@@ -38,6 +21,36 @@ button {
   font-size: 4vmin;
   padding: 2vmin 5vmin;
 }
+
+
+
+button:hover,input:hover{
+  background-color: #eeeeee;
+
+}
+label:hover,a:hover,h1:hover{
+  color: #eeeeee;
+}
+
+
+
+input:focus{
+  background-color: #cecece;
+}
+
+
+
+text,label,h1,h2,h3,h4{
+  color:  #a3a3a3;
+}
+
+a{
+  text-decoration: none;
+  color:  #acacac;
+}
+
+
+
 
 footer{
   display: flex;
