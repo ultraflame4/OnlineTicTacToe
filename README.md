@@ -15,7 +15,7 @@ This rewrite will also change the required dependencies.
 Its basically almost a new project
 
 ### Installation instructions
-
+<strike>
 1. Download this repository
 2. Extract the downloaded zip file to a folder
 3. Use the executables in the "standalones" folder 
@@ -23,7 +23,7 @@ Its basically almost a new project
    Note: the executables will only work for windows
 
 
- **or**
+**or**
 
 1. Download python 3.9
 
@@ -48,7 +48,9 @@ pip install git+https://github.com/ultraflame4/OnlineTicTacToe/
 
 
 5. Host or Play!
+</strike>
 
+This version is currently unplayable
 
 ### Instructions
 
