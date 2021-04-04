@@ -7,7 +7,7 @@ setuptools.setup(
     author="ultraflame4",
     description="A hostable online multiplayer TicTacToe",
     url="https://github.com/ultraflame4/OnlineTicTacToe",
-    packages=["OnlineTicTacToe","ott_client_src","ott_server_src"],
+    packages=["OnlineTicTacToe"],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
