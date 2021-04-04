@@ -1,0 +1,2 @@
+TODO:
+- add gui for player name. (in game menu above server info?)
