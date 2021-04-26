@@ -6,43 +6,40 @@ Grid Square States:
  */
 
 
-function generateSquare(index){
+function generateSquare(index) {
     let sqr = document.createElement("button")
     sqr.type = "button"
-    sqr.className="gridSquare"
-    sqr.textContent=index
-    sqr.setAttribute("onclick","squareClick(this)")
-    sqr.setAttribute("data-index",index)
+    sqr.className = "gridSquare"
+    sqr.textContent = index
+    sqr.setAttribute("onclick", "squareClick(this)")
+    sqr.setAttribute("data-index", index)
 
-    sqr.setAttribute("data-state","0")
+    sqr.setAttribute("data-state", "0")
     return sqr
 }
 
 
-
 var tableSquares = []
-function generateGridTable(){
+
+function generateGridTable() {
 
     tableSquares = []
-    var gridTable  = document.getElementById("gridTable")
+    var gridTable = document.getElementById("gridTable")
 
-    for (i=0;i<9;i++){
+    for (i = 0; i < 9; i++) {
         let s = generateSquare(i.toString())
 
         tableSquares.push(s)
         gridTable.appendChild(s)
 
         var spacer = document.createElement('div')
-        if ((i+1)%3==0 && i > 0){
+        if ((i + 1) % 3 == 0 && i > 0) {
             gridTable.appendChild(document.createElement('br'))
-            spacer.className="gridSquareSpacerV"
+            spacer.className = "gridSquareSpacerV"
+        } else {
+            spacer.className = "gridSquareSpacerH"
         }
-
-
-        else{
-            spacer.className="gridSquareSpacerH"
-        }
-        if (i<8) {
+        if (i < 8) {
             gridTable.appendChild(spacer)
         }
     }
@@ -50,13 +47,13 @@ function generateGridTable(){
 
 document.addEventListener("DOMContentLoaded", generateGridTable)
 
-function getSquareByIndex(index){
+function getSquareByIndex(index) {
     return tableSquares[index]
 
 }
 
-function squareClick(squareTag){
+function squareClick(squareTag) {
     var index = squareTag.dataset.index
     squareTag.dataset.state = "1"
-    console.log("GridTable button: "+index)
+    console.log("GridTable button: " + index)
 }

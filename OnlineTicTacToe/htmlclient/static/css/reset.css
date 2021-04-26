@@ -1,99 +1,94 @@
-*{
-  font-family: "Segoe UI",Arial,sans-serif;
-  margin:0;
-  padding: 0;
-  outline: none;
+* {
+    font-family: "Segoe UI", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    outline: none;
 
 }
 
-*:disabled{
-  text-decoration: line-through;
+*:disabled {
+    text-decoration: line-through;
 }
 
 
-body{
-  background-color: #555555;
+body {
+    background-color: #555555;
 }
 
 
 button {
-  background-color: #a3a3a3;
-  color: #555555;
-  border: none;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 4vmin;
-  padding: 2vmin 5vmin;
+    background-color: #a3a3a3;
+    color: #555555;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 4vmin;
+    padding: 2vmin 5vmin;
 }
 
-button:disabled{
-  background-color: #727272;
-}
-
-
-
-button:enabled:hover,input:enabled:hover{
-  background-color: #eeeeee;
-
-}
-label:enabled:hover,a:enabled:hover,h1:enabled:hover{
-  color: #eeeeee;
+button:disabled {
+    background-color: #727272;
 }
 
 
+button:enabled:hover, input:enabled:hover {
+    background-color: #eeeeee;
 
-input:enabled:focus{
-  background-color: #cecece;
+}
+
+label:enabled:hover, a:enabled:hover, h1:enabled:hover {
+    color: #eeeeee;
 }
 
 
-
-text,label,h1,h2,h3,h4{
-  color:  #a3a3a3;
-}
-
-a{
-  text-decoration: none;
-  color:  #acacac;
+input:enabled:focus {
+    background-color: #cecece;
 }
 
 
+text, label, h1, h2, h3, h4 {
+    color: #a3a3a3;
+}
+
+a {
+    text-decoration: none;
+    color: #acacac;
+}
 
 
-footer{
-  display: flex;
-  color:  #a3a3a3;
-  justify-content: center;
-  
+footer {
+    display: flex;
+    color: #a3a3a3;
+    justify-content: center;
+
 }
 
 
 input {
-  display: table;
-  background-color: #a3a3a3;
+    display: table;
+    background-color: #a3a3a3;
 
 }
 
 .column {
 
-  float: left;
+    float: left;
 
 }
 
-.row{
-  height: fit-content;
+.row {
+    height: fit-content;
 
 }
 
 .row:after {
-  content: "";
-  display: table;
-  clear: both;
+    content: "";
+    display: table;
+    clear: both;
 }
 
 
-
 br {
-  height: 0;
+    height: 0;
 }

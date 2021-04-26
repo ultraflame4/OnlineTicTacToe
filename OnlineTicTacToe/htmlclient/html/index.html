@@ -32,7 +32,7 @@
             <button type="button" id="menuHostButton" class="menuButton" data-state="inactive"
                     onclick="hostMenuButton()">Host
             </button>
-            
+        
         </div>
         
         <!-- Join Menu Page -->
@@ -46,9 +46,10 @@
                 <input class="input-label" type="text" id="serverport" placeholder="Enter the server port">
             </div>
             <div class="row">
-                <button class="fwbutton playbutton" id="serveripJoinButton" type="button" onclick="uiPlayGame(1)">Join</button>
+                <button class="fwbutton playbutton" id="serveripJoinButton" type="button" onclick="uiPlayGame(1)">Join
+                </button>
             </div>
-            
+        
         </div>
         
         
@@ -66,16 +67,17 @@
             <div class="row">
                 <h1 class="MMButtonlabel">Multiplayer</h1>
                 <button type="button" id="MMJoin" class="fwbutton" onclick="JoinMenuButton()">Join Game</button>
-
+                
                 <button type="button" id="MMHost" class="fwbutton" onclick="hostMenuButton()">Host & Play</button>
             </div>
         </div>
-    
+        
         <!-- Host Menu Page -->
         <div id="HostMenuPage" class="menuPage" hidden="hidden">
             <div class="row">
                 <label class="label-input" for="hostserverport">Host Server Port</label>
-                <input class="input-label" type="text" id="hostserverport" placeholder="Enter host server port (Leave blank for auto)">
+                <input class="input-label" type="text" id="hostserverport"
+                       placeholder="Enter host server port (Leave blank for auto)">
             </div>
             <div class="row">
                 <button type="button" class="fwbutton playbutton" id="HMhost" onclick="uiPlayGame(3)">Host Game</button>
@@ -84,7 +86,7 @@
         
         <!-- Game info menu page -->
         <div id="GameMenuPage" class="menuPage" hidden="hidden">
-
+            
             <div class="row">
                 <label class="label-input gmmlabel" for="gmmserverip">Server Address</label>
                 <input class="input-label gmminput" type="text" id="gmmserverip" value="N/A" disabled>
@@ -94,7 +96,7 @@
                 <input class="input-label gmminput" type="text" id="gmmserverport" value="N/A" disabled>
             </div>
         </div>
-        
+    
     </div>
 </div>
 <footer>

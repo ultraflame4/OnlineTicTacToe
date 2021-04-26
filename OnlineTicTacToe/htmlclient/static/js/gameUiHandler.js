@@ -12,22 +12,21 @@ class GameUIInfo {
         this.playername = ""
         this.serverIp = ""
         this.serverPort = ""
-        this.hostPort=""
-        this.verified=false
+        this.hostPort = ""
+        this.verified = false
     }
 
-    getInfo(){
+    getInfo() {
         this.playername = document.getElementById("username_in").value
-        this.serverIp=document.getElementById("serverip").value
-        this.serverPort=document.getElementById("serverport").value
-        this.hostPort=document.getElementById("hostserverport").value
+        this.serverIp = document.getElementById("serverip").value
+        this.serverPort = document.getElementById("serverport").value
+        this.hostPort = document.getElementById("hostserverport").value
 
     }
 }
 
 
-
-function gameUiInit(){
+function gameUiInit() {
     // CAlled when pyodide fully initialised
 
 }
@@ -35,14 +34,14 @@ function gameUiInit(){
 
 // Returns info needed for connection
 // Dunnit check, just catch error and alert() it
-function getInfo(check_type=0){
+function getInfo(check_type = 0) {
     gameUIinfo = new GameUIInfo()
     gameUIinfo.getInfo()
     return gameUIinfo
 }
 
 // ------------ playGame buttons ----------------
-function disablePlayButtons(){
+function disablePlayButtons() {
     // Disable all buttons
     let playbuttons = document.getElementsByClassName("playbutton")
     for (let i = 0; i < playbuttons.length; i++) {
@@ -50,11 +49,16 @@ function disablePlayButtons(){
     }
 }
 
+function enablePlayButtons() {
+    // Enables some buttons
+    document.getElementById("MMPlay").disabled = false
+}
 
-function uiPlayGame(playType){
+
+function uiPlayGame(playType) {
 
     // check pyodide initiated.
-    if (!pyodideInitiated){
+    if (!pyodideInitiated) {
         console.warn("Pyodide not intiated")
         alert("Error: Pyodide not initiated yet")
 
@@ -65,14 +69,14 @@ function uiPlayGame(playType){
     // playType: 0-singleplayer 1-joinGame 2-Host&Play
 
 
-
     console.log(playType)
-    if (playType!=0){
+    if (playType != 0) {
         alert("Unavailable")
-    }
-    else{
+    } else {
         alert("Warning, this is being worked on. It may not be fully functional")
         // Pass signal to core python package
-        pyodide.runPythonAsync("gameCore.startSinglePlayerGame")
+        pyodide.runPython(`
+        gameCore.startSinglePlayerGame
+        `)
     }
 }

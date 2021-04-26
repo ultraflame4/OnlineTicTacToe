@@ -1,5 +1,5 @@
 
-#configmenu{
+#configmenu {
     display: inline;
     padding: 3vmin;
     height: fit-content;
@@ -7,51 +7,46 @@
 }
 
 
-
-.menuButton[data-state="active"]{
+.menuButton[data-state="active"] {
     background-color: #cdcdcd;
     padding: 3vmin 5vmin;
 
 }
 
-.menuButton{
+.menuButton {
     margin-bottom: 3vmin;
 }
 
-.menuButton[data-state="inactive"]:hover{
+.menuButton[data-state="inactive"]:hover {
     padding: 2.5vmin 5vmin;
 }
 
-.label-input{
+.label-input {
     float: left;
     padding: 2vmin 4vmin;
     font-size: 4vmin;
 }
 
 
-
-
-
 /*Main Menu*/
 
 /* Refers to full width button. buttons that take the whole with of the menu*/
-.fwbutton{
+.fwbutton {
     margin-bottom: 1vmin;
     margin-top: 1vmin;
     width: 100%;
 }
 
-h1.MMButtonlabel{
+h1.MMButtonlabel {
     font-size: 5vmin;
     padding: 2vmin;
 
 }
 
 
-
 /*Join menu*/
 
-.input-label{
+.input-label {
 
     width: 70vmin;
     height: 4vmin;
@@ -62,18 +57,17 @@ h1.MMButtonlabel{
     border: #454545;
 
 
-
 }
 
 
-
 /*Game Menu*/
-.gmmlabel{
+.gmmlabel {
     font-size: 3.5vmin;
     padding-right: 2vmin;
     margin-right: 1vmin;
 }
-.gmminput{
+
+.gmminput {
     text-align: center;
     font-size: 2.5vmin;
     padding: 1.5vmin;
