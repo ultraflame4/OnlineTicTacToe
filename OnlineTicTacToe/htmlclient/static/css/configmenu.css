@@ -33,7 +33,9 @@
 
 
 /*Main Menu*/
-.MMbutton{
+
+/* Refers to full width button. buttons that take the whole with of the menu*/
+.fwbutton{
     margin-bottom: 1vmin;
     margin-top: 1vmin;
     width: 100%;
@@ -63,13 +65,6 @@ h1.MMButtonlabel{
 
 }
 
-#serveripJoinButton{
-
-    padding: 2vmin;
-    margin-top: 1vmin;
-    width: 100%;
-
-}
 
 
 /*Game Menu*/

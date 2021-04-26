@@ -46,7 +46,7 @@
                 <input class="input-label" type="text" id="serverport" placeholder="Enter the server port">
             </div>
             <div class="row">
-                <button id="serveripJoinButton" type="button" onclick="uiPlayGame(1)">Join</button>
+                <button class="fwbutton playbutton" id="serveripJoinButton" type="button" onclick="uiPlayGame(1)">Join</button>
             </div>
             
         </div>
@@ -60,14 +60,14 @@
             </div>
             <div class="row">
                 <h1 class="MMButtonlabel" for="MMPlay">Singleplayer</h1>
-                <button type="button" id="MMPlay" class="MMbutton" onclick="uiPlayGame(0)">Play</button>
+                <button type="button" id="MMPlay" class="fwbutton playbutton" onclick="uiPlayGame(0)">Play</button>
             </div>
             
             <div class="row">
                 <h1 class="MMButtonlabel">Multiplayer</h1>
-                <button type="button" id="MMJoin" class="MMbutton" onclick="JoinMenuButton()">Join Game</button>
+                <button type="button" id="MMJoin" class="fwbutton" onclick="JoinMenuButton()">Join Game</button>
 
-                <button type="button" id="MMHost" class="MMbutton" onclick="hostMenuButton()">Host & Play</button>
+                <button type="button" id="MMHost" class="fwbutton" onclick="hostMenuButton()">Host & Play</button>
             </div>
         </div>
     
@@ -78,7 +78,7 @@
                 <input class="input-label" type="text" id="hostserverport" placeholder="Enter host server port (Leave blank for auto)">
             </div>
             <div class="row">
-                <button type="button" class="MMbutton" id="HMhost" onclick="uiPlayGame(3)">Host Game</button>
+                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="uiPlayGame(3)">Host Game</button>
             </div>
         </div>
         

@@ -6,6 +6,11 @@
 
 }
 
+*:disabled{
+  text-decoration: line-through;
+}
+
+
 body{
   background-color: #555555;
 }
@@ -22,19 +27,23 @@ button {
   padding: 2vmin 5vmin;
 }
 
+button:disabled{
+  background-color: #727272;
+}
 
 
-button:hover,input:hover{
+
+button:enabled:hover,input:enabled:hover{
   background-color: #eeeeee;
 
 }
-label:hover,a:hover,h1:hover{
+label:enabled:hover,a:enabled:hover,h1:enabled:hover{
   color: #eeeeee;
 }
 
 
 
-input:focus{
+input:enabled:focus{
   background-color: #cecece;
 }
 
