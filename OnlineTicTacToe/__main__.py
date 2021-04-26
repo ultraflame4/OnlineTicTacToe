@@ -11,7 +11,7 @@ else:
     arg = sys.argv[1]
     if arg == "client":
         print("Launching client...")
-        import OnlineTicTacToe.client_src as clientLauncher
+        import OnlineTicTacToe.htmlclient as clientLauncher
         clientLauncher.launchClient()
 
 

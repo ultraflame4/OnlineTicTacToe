@@ -6,8 +6,12 @@
     <link rel="stylesheet" href="../static/css/gridSquare.css">
     <link rel="stylesheet" href="../static/css/configmenu.css">
     
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/pyodide.js"></script>
+    
+    <script type="text/javascript" src="../static/js/pageInit.js"></script>
     <script type="text/javascript" src="../static/js/gridTable.js"></script>
     <script type="text/javascript" src="../static/js/configmenu.js"></script>
+    <script type="text/javascript" src="../static/js/gameUiHandler.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -42,7 +46,7 @@
                 <input class="input-label" type="text" id="serverport" placeholder="Enter the server port">
             </div>
             <div class="row">
-                <button id="serveripJoinButton" type="button">Join</button>
+                <button id="serveripJoinButton" type="button" onclick="uiPlayGame(1)">Join</button>
             </div>
             
         </div>
@@ -50,10 +54,13 @@
         
         <!-- Main Menu Page -->
         <div id="MainMenuPage" class="menuPage" hidden="hidden">
-        
+            <div class="row">
+                <label class="label-input" for="username_in">Name</label>
+                <input class="input-label" type="text" id="username_in" placeholder="Enter name">
+            </div>
             <div class="row">
                 <h1 class="MMButtonlabel" for="MMPlay">Singleplayer</h1>
-                <button type="button" id="MMPlay" class="MMbutton">Play</button>
+                <button type="button" id="MMPlay" class="MMbutton" onclick="uiPlayGame(0)">Play</button>
             </div>
             
             <div class="row">
@@ -71,7 +78,7 @@
                 <input class="input-label" type="text" id="hostserverport" placeholder="Enter host server port (Leave blank for auto)">
             </div>
             <div class="row">
-                <button type="button" class="MMbutton" id="HMhost">Host Game</button>
+                <button type="button" class="MMbutton" id="HMhost" onclick="uiPlayGame(3)">Host Game</button>
             </div>
         </div>
         

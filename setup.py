@@ -2,7 +2,7 @@ import setuptools
 
 
 setuptools.setup(
-    name="OnlineTicTacToe", # Replace with your own username
+    name="OnlineTicTacToe",
     version="2.0.0",
     author="ultraflame4",
     description="A hostable online multiplayer TicTacToe",

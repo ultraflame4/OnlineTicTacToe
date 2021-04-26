@@ -22,6 +22,7 @@ function generateSquare(index){
 
 var tableSquares = []
 function generateGridTable(){
+
     tableSquares = []
     var gridTable  = document.getElementById("gridTable")
 
@@ -47,9 +48,7 @@ function generateGridTable(){
     }
 }
 
-document.addEventListener("DOMContentLoaded",function () {
-    generateGridTable()
-})
+document.addEventListener("DOMContentLoaded", generateGridTable)
 
 function getSquareByIndex(index){
     return tableSquares[index]
@@ -59,5 +58,5 @@ function getSquareByIndex(index){
 function squareClick(squareTag){
     var index = squareTag.dataset.index
     squareTag.dataset.state = "1"
-    console.log(index)
+    console.log("GridTable button: "+index)
 }
