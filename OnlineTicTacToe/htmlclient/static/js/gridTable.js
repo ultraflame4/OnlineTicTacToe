@@ -52,8 +52,13 @@ function getSquareByIndex(index) {
 
 }
 
+function setSquareState(index,state){
+    getSquareByIndex(index).dataset.state = state
+}
+
 function squareClick(squareTag) {
-    var index = squareTag.dataset.index
-    squareTag.dataset.state = "1"
-    console.log("GridTable button: " + index)
+    if (currentSession!=null) {
+        var index = squareTag.dataset.index
+        currentSession.square_click_callback(index)
+    }
 }
