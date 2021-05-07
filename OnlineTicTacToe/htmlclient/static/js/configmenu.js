@@ -29,18 +29,18 @@ function openMenu(menuId, tagId) {
 }
 
 
-function MainMenuButton() {
+function openMainMenu() {
     openMenu("MainMenuPage", "menuMainButton")
 }
 
-function JoinMenuButton() {
+function openJoinMenu() {
     openMenu("joinMenuPage", "menuJoinButton")
 }
 
-function hostMenuButton() {
+function openHostMenu() {
     openMenu("HostMenuPage", "menuHostButton")
 }
 
-function gameMenuButton() {
-    openMenu("GameMenuPage", "menuGameButton")
+function openGameInfoMenu() {
+    openMenu("GameInfoMenuPage", "menuGameButton")
 }

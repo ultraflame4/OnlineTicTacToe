@@ -6,12 +6,9 @@
     <link rel="stylesheet" href="../static/css/gridSquare.css">
     <link rel="stylesheet" href="../static/css/configmenu.css">
     
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/pyodide/v0.17.0a2/full/pyodide.js"></script>
-    
-    <script type="text/javascript" src="../static/js/pageInit.js"></script>
     <script type="text/javascript" src="../static/js/gridTable.js"></script>
     <script type="text/javascript" src="../static/js/configmenu.js"></script>
-    <script type="text/javascript" src="../static/js/gameUiHandler.js"></script>
+    <script type="text/javascript" src="../static/js/gameManager.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -19,21 +16,55 @@
     <div id="gridTable" class="column"></div>
     <div id="configmenu" class="column">
         <!-- Menu tab Buttons -->
-        <div id="tabButton">
+        <div id="configMenuTabs">
             <button type="button" id="menuMainButton" class="menuButton" data-state="inactive"
-                    onclick="MainMenuButton()">Main Menu
+                    onclick="openMainMenu()">Main Menu
             </button>
             <button type="button" id="menuGameButton" class="menuButton" data-state="inactive"
-                    onclick="gameMenuButton()">Game
+                    onclick="openGameInfoMenu()">Game
             </button>
             <button type="button" id="menuJoinButton" class="menuButton" data-state="inactive"
-                    onclick="JoinMenuButton()">Join
+                    onclick="openJoinMenu()">Join
             </button>
             <button type="button" id="menuHostButton" class="menuButton" data-state="inactive"
-                    onclick="hostMenuButton()">Host
+                    onclick="openHostMenu()">Host
             </button>
         
         </div>
+
+        <!-- Main Menu Page -->
+        <div id="MainMenuPage" class="menuPage" hidden="hidden">
+            <div class="row">
+                <label class="label-input" for="username_in">Name</label>
+                <input class="input-label" type="text" id="username_in" placeholder="Enter name">
+            </div>
+            <div class="row">
+                <h1 class="MainMenuLabel" for="MMPlay">Singleplayer</h1>
+                <button type="button" id="MMPlay" class="fwbutton playbutton" onclick="startgame(0)">Play</button>
+            </div>
+        
+            <div class="row">
+                <h1 class="MainMenuLabel">Multiplayer</h1>
+                <button type="button" id="MMJoin" class="fwbutton" onclick="openJoinMenu()">Join Game</button>
+            
+                <button type="button" id="MMHost" class="fwbutton" onclick="openHostMenu()">Host & Play</button>
+            </div>
+        </div>
+
+
+        <!-- Game info menu page -->
+        <div id="GameInfoMenuPage" class="menuPage" hidden="hidden">
+        
+            <div class="row">
+                <label class="label-input info-label" for="gmmserverip">Server Address</label>
+                <input class="input-label info-value" type="text" id="gmmserverip" value="N/A" disabled>
+            </div>
+            <div class="row">
+                <label class="label-input info-label" for="gmmserverport">Server Port</label>
+                <input class="input-label info-value" type="text" id="gmmserverport" value="N/A" disabled>
+            </div>
+        </div>
+        
         
         <!-- Join Menu Page -->
         <div id="joinMenuPage" class="menuPage" hidden="hidden">
@@ -46,31 +77,12 @@
                 <input class="input-label" type="text" id="serverport" placeholder="Enter the server port">
             </div>
             <div class="row">
-                <button class="fwbutton playbutton" id="serveripJoinButton" type="button" onclick="uiPlayGame(1)">Join
+                <button class="fwbutton playbutton" id="serveripJoinButton" type="button" onclick="startgame(1)">Join
                 </button>
             </div>
         
         </div>
         
-        
-        <!-- Main Menu Page -->
-        <div id="MainMenuPage" class="menuPage" hidden="hidden">
-            <div class="row">
-                <label class="label-input" for="username_in">Name</label>
-                <input class="input-label" type="text" id="username_in" placeholder="Enter name">
-            </div>
-            <div class="row">
-                <h1 class="MMButtonlabel" for="MMPlay">Singleplayer</h1>
-                <button type="button" id="MMPlay" class="fwbutton playbutton" onclick="uiPlayGame(0)">Play</button>
-            </div>
-            
-            <div class="row">
-                <h1 class="MMButtonlabel">Multiplayer</h1>
-                <button type="button" id="MMJoin" class="fwbutton" onclick="JoinMenuButton()">Join Game</button>
-                
-                <button type="button" id="MMHost" class="fwbutton" onclick="hostMenuButton()">Host & Play</button>
-            </div>
-        </div>
         
         <!-- Host Menu Page -->
         <div id="HostMenuPage" class="menuPage" hidden="hidden">
@@ -80,22 +92,11 @@
                        placeholder="Enter host server port (Leave blank for auto)">
             </div>
             <div class="row">
-                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="uiPlayGame(3)">Host Game</button>
+                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="startgame(3)">Host Game</button>
             </div>
         </div>
         
-        <!-- Game info menu page -->
-        <div id="GameMenuPage" class="menuPage" hidden="hidden">
-            
-            <div class="row">
-                <label class="label-input gmmlabel" for="gmmserverip">Server Address</label>
-                <input class="input-label gmminput" type="text" id="gmmserverip" value="N/A" disabled>
-            </div>
-            <div class="row">
-                <label class="label-input gmmlabel" for="gmmserverport">Server Port</label>
-                <input class="input-label gmminput" type="text" id="gmmserverport" value="N/A" disabled>
-            </div>
-        </div>
+
     
     </div>
 </div>
