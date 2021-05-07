@@ -54,6 +54,7 @@ function getSquareByIndex(index) {
 
 function setSquareState(index,state){
     getSquareByIndex(index).dataset.state = state
+    console.log("updated",index, state)
 }
 
 function squareClick(squareTag) {

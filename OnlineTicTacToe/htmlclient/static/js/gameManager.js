@@ -13,7 +13,6 @@ function getRandomInt(max) {
 }
 
 
-
 const GameSessionTypeEnum = Object.freeze({
     "Singleplayer":0,
     "Hosting":1,
@@ -72,6 +71,8 @@ function squareIndexIsSelfstate(index1,index2,index3,self_state){
 
 
 
+
+
 // helper "ai" function for singleplayer
 function gameAiChoose(){
     let valid_index = []
@@ -84,17 +85,62 @@ function gameAiChoose(){
         }
     }
 
-    // Randomly chose 1 square from valid
-    let chosen = getRandomInt(valid_index.length-1)
 
+
+    let chosen=null;
+    // Helper function for ai
+    function gameAidecider(index1,index2,index3){
+        if (getSquareByIndex(index1).dataset.state==1 && getSquareByIndex(index2).dataset.state==1){
+            chosen = index3
+        }
+        else if (getSquareByIndex(index3).dataset.state==1 && getSquareByIndex(index2).dataset.state==1){
+            chosen = index1
+        }
+        if (chosen!=null && getSquareByIndex(chosen).dataset.state==0){
+            return true
+        }
+
+
+        return false
+    }
+
+    // vertical
+    if (gameAidecider(0,1,2)){}
+    else if (gameAidecider(3,4,5)){}
+    else if (gameAidecider(6,7,8)){}
+    //horizontal
+    else if (gameAidecider(0,3,6)){}
+    else if (gameAidecider(1,4,7)){}
+    else if (gameAidecider(2,5,8)){}
+    // diagonal
+    else if (gameAidecider(0,4,8)){}
+    else if (gameAidecider(2,4,6)){}
+
+    // Randomly chose 1 square from valid
+    else{
+
+        chosen = getRandomInt(valid_index.length - 1)
+        currentSession.enemy_click_callback(valid_index[chosen])
+        return
+    }
     // since ai is enemy, just use enemy callback
-    currentSession.enemy_click_callback(valid_index[chosen])
+    currentSession.enemy_click_callback(chosen)
 }
 
 
 
 
+function disableAllSquare(){
+    for (let i = 0; i < 9; i++) {
+        getSquareByIndex(i).disabled=true
+    }
+}
 
+function setAllSquaresState(state){
+    for (let i = 0; i < 9; i++) {
+        getSquareByIndex(i).dataset.state=state
+    }
+}
 
 // Note: This class is just for organisation and putting all functions for the current game session in 1 place
 //       there CANNOT be MORE THAN 1 session AT A TIME
@@ -133,6 +179,7 @@ class GameSession {
     // seperate call back for enemy, -> easier to implement multiplayer ltr
     enemy_click_callback(index){
         if (this.isplayer_turn){return}
+        console.log("ENEMY: ",index)
         setSquareState(index,2)
         // change turns
         this.isplayer_turn=true
@@ -182,14 +229,17 @@ class GameSession {
     }
 
     end_protocol(reason){
-        if (reason==GameEndReasons.is_won){
-            alert("You Won!")
-        }
-        else if (reason==GameEndReasons.is_lose){
-            alert("You lost to the enemy")
-        }
-        // placeholder code below, doesnt rly matter what to do when game ends. Destroy current game session
-        this.end()
+        disableAllSquare()
+        setTimeout(() => {
+            if (reason == GameEndReasons.is_won) {
+                alert("You Won!")
+            } else if (reason == GameEndReasons.is_lose) {
+                alert("You lost to the enemy")
+            }
+            // placeholder code below, doesnt rly matter what to do when game ends. Destroy current game session
+
+            this.end()
+        }, 500)
 
     }
 
