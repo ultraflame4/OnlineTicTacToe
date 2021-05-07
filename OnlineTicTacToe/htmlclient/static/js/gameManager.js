@@ -7,6 +7,10 @@
 // eg. Updates ui (eg.updating server ip in game info tab)
 
 
+// helper random function
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
 
 
 
@@ -16,6 +20,16 @@ const GameSessionTypeEnum = Object.freeze({
     "Guest":2
     }
 )
+
+const GameEndReasons = Object.freeze({
+        "quit":0,
+        "is_won":1,
+        "is_lose":2
+    }
+)
+
+
+
 
 class GameInfo {
     constructor(gameSessionType) {
@@ -45,12 +59,42 @@ class GameNetworking{
 
 
 // note. helper function
-function squareIndexIsSelfstate(index,self_state){
-    if (getSquareByIndex(index).dataset.state==self_state){
+function squareIndexIsSelfstate(index1,index2,index3,self_state){
+
+    if (getSquareByIndex(index1).dataset.state==self_state&&getSquareByIndex(index2).dataset.state==self_state&&getSquareByIndex(index3).dataset.state==self_state){
+
         return true
     }
     return false
 }
+
+
+
+
+
+// helper "ai" function for singleplayer
+function gameAiChoose(){
+    let valid_index = []
+
+    for (let i = 0; i < 9; i++) {
+        let t = getSquareByIndex(i)
+        if (t.dataset.state==0){
+            valid_index.push(i)
+
+        }
+    }
+
+    // Randomly chose 1 square from valid
+    let chosen = getRandomInt(valid_index.length-1)
+
+    // since ai is enemy, just use enemy callback
+    currentSession.enemy_click_callback(valid_index[chosen])
+}
+
+
+
+
+
 
 // Note: This class is just for organisation and putting all functions for the current game session in 1 place
 //       there CANNOT be MORE THAN 1 session AT A TIME
@@ -70,54 +114,19 @@ class GameSession {
     check_win(isenemy=false){
         // Return true if player/enemy wins
         let self_state = (isenemy) ? 2 : 1
-        if (squareIndexIsSelfstate(0,self_state)){
-            if (squareIndexIsSelfstate(1,self_state)){
-                if (squareIndexIsSelfstate(2,self_state)){
-                    return true
-                }
-            }
-            else if (squareIndexIsSelfstate(4,self_state)){
-                if (squareIndexIsSelfstate(8,self_state)){
-                    return true
-                }
-            }
-            else if (squareIndexIsSelfstate(3,self_state)){
-                if (squareIndexIsSelfstate(6,self_state)){
-                    return true
-                }
-            }
-        }
-        else if (squareIndexIsSelfstate(8,self_state)){
-            if (squareIndexIsSelfstate(5,self_state)){
-                if (squareIndexIsSelfstate(2),self_state){
-                    return true
-                }
-            }
-            else if (squareIndexIsSelfstate(7,self_state)){
-                if (squareIndexIsSelfstate(6,self_state)){
-                    return true
-                }
-            }
-        }
-        else if (squareIndexIsSelfstate(4,self_state)){
-            if (squareIndexIsSelfstate(2,self_state)){
-                if (squareIndexIsSelfstate(6,self_state)){
-                    return true
-                }
-            }
-            if (squareIndexIsSelfstate(1,self_state)){
-                if (squareIndexIsSelfstate(7,self_state)){
-                    return true
-                }
-            }
-            if (squareIndexIsSelfstate(3,self_state)){
-                if (squareIndexIsSelfstate(5,self_state)){
-                    return true
-                }
-            }
-        }
-        return false
 
+        // horizontal
+        if (squareIndexIsSelfstate(0,1,2,self_state)){return true}
+        if (squareIndexIsSelfstate(3,4,5,self_state)){return true}
+        if (squareIndexIsSelfstate(6,7,8,self_state)){return true}
+        //verticle
+        if (squareIndexIsSelfstate(0,3,6,self_state)){return true}
+        if (squareIndexIsSelfstate(1,4,7,self_state)){return true}
+        if (squareIndexIsSelfstate(2,5,8,self_state)){return true}
+        // diagonal
+        if (squareIndexIsSelfstate(0,4,8,self_state)){return true}
+        if (squareIndexIsSelfstate(2,4,6,self_state)){return true}
+        return false
     }
 
 
@@ -131,10 +140,21 @@ class GameSession {
         for (let i = 0; i < 9; i++) {
             getSquareByIndex(i).disabled=false
         }
+
+        if (this.check_win(true)){
+            this.end_protocol(GameEndReasons.is_lose)
+            return;
+        }
+
+
     }
 
 
-    square_click_callback(index){
+    square_click_callback(index){ // NOTE: ONLY CALLED WHEN BUTTON IS CLICKED
+        // check if is player's turn
+        if (!this.isplayer_turn){return}
+
+
         // Callback for player turn
 
         // change gui square state
@@ -151,8 +171,25 @@ class GameSession {
         this.isplayer_turn=false
         // Check if win.
         if (this.check_win()){
-            console.log("WIN!")
+            this.end_protocol(GameEndReasons.is_won)
+            return;
         }
+
+        // if singleplayer, call "AI"
+        gameAiChoose()
+
+
+    }
+
+    end_protocol(reason){
+        if (reason==GameEndReasons.is_won){
+            alert("You Won!")
+        }
+        else if (reason==GameEndReasons.is_lose){
+            alert("You lost to the enemy")
+        }
+        // placeholder code below, doesnt rly matter what to do when game ends. Destroy current game session
+        this.end()
 
     }
 
@@ -164,6 +201,8 @@ class GameSession {
             t.disabled=false
             t.dataset.state=0
         }
+
+        currentSession=null
     }
 }
 
@@ -175,7 +214,7 @@ var currentSession = null
 function startNewSession(session_type){
     if (currentSession!=null){
         currentSession.end()
-        currentSession=null
+
     }
     currentSession = new GameSession()
     currentSession.set_gameInfo(new GameInfo())
