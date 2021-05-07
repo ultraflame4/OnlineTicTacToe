@@ -23,7 +23,8 @@ const GameSessionTypeEnum = Object.freeze({
 const GameEndReasons = Object.freeze({
         "quit":0,
         "is_won":1,
-        "is_lose":2
+        "is_lose":2,
+        "is_tied":3
     }
 )
 
@@ -172,13 +173,24 @@ class GameSession {
         // diagonal
         if (squareIndexIsSelfstate(0,4,8,self_state)){return true}
         if (squareIndexIsSelfstate(2,4,6,self_state)){return true}
+
         return false
     }
 
 
+    check_tie(){
+        let all_used = true
+        for (let i = 0; i < 9; i++) {
+            if (getSquareByIndex(i).dataset.state==0){all_used=false}
+        }
+        return all_used
+    }
+
     // seperate call back for enemy, -> easier to implement multiplayer ltr
     enemy_click_callback(index){
         if (this.isplayer_turn){return}
+        if (getSquareByIndex(index).dataset.state!=0){return;}
+
         console.log("ENEMY: ",index)
         setSquareState(index,2)
         // change turns
@@ -192,6 +204,11 @@ class GameSession {
             this.end_protocol(GameEndReasons.is_lose)
             return;
         }
+        else if(this.check_tie()){
+            this.end_protocol(GameEndReasons.is_tied)
+            return;
+        }
+
 
 
     }
@@ -201,6 +218,8 @@ class GameSession {
         // check if is player's turn
         if (!this.isplayer_turn){return}
 
+        // Check if index is alr used
+        if (getSquareByIndex(index).dataset.state!=0){return;}
 
         // Callback for player turn
 
@@ -221,6 +240,11 @@ class GameSession {
             this.end_protocol(GameEndReasons.is_won)
             return;
         }
+        else if(this.check_tie()){
+            this.end_protocol(GameEndReasons.is_tied)
+            return;
+        }
+
 
         // if singleplayer, call "AI"
         gameAiChoose()
@@ -235,6 +259,8 @@ class GameSession {
                 alert("You Won!")
             } else if (reason == GameEndReasons.is_lose) {
                 alert("You lost to the enemy")
+            } else if (reason == GameEndReasons.is_tied) {
+                alert("Tied!")
             }
             // placeholder code below, doesnt rly matter what to do when game ends. Destroy current game session
 
