@@ -97,6 +97,11 @@ function gameAiChoose(){
         else if (getSquareByIndex(index3).dataset.state==1 && getSquareByIndex(index2).dataset.state==1){
             chosen = index1
         }
+        else if (getSquareByIndex(index1).dataset.state==1 && getSquareByIndex(index3).dataset.state==1){
+            chosen = index2
+        }
+
+
         if (chosen!=null && getSquareByIndex(chosen).dataset.state==0){
             return true
         }
