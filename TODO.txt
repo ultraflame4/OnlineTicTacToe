@@ -1,2 +1,2 @@
 TODO:
-- change Sessions to rounds instead.
+- improve ai. shld seek to win if possible.

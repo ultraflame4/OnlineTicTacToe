@@ -6,13 +6,17 @@ that can be hosted and played
 
 ## Rewrite branch.
 This branch is **incompaitable** with other older versions
-This is due to changes in protocol for client-serve communication
-This rewrite version will also switch to a html-based client and 
-the server code will be completely rewritten from scratch
 
-This rewrite will also change the required dependencies.
+### This version can be directly played on the browser!
+[link to game](https://ultraflame4.github.io/OnlineTicTacToe)
 
-Its basically almost a new project
+
+
+
+
+
+
+
 
 <strike>
 ### Installation instructions
@@ -59,9 +63,10 @@ To host a server,
 To join a server,
 ``python -m OnlineTicTacToe server client``
 
-</strike>
+
 
 This version is currently unplayable
 
 ## Dependencies
 * cefpython
+  </strike>
