@@ -33,13 +33,13 @@ const GameEndReasons = Object.freeze({
 
 class GameInfo {
     constructor(gameSessionType) {
-        this.playername = ""
-        this.enemyName = ""
-        this.serverIp = ""
-        this.serverPort = ""
-        this.hostPort = ""
+        this.playername = null
+        this.enemyName = null
+        this.serverIp = null
+        this.hostPort = null
         this.verified = false
         this.gameType=gameSessionType
+        this.is_host = false
         this.no_rounds = 0 // Number of rounds
         this.scores = [0,0]
     }
@@ -48,7 +48,6 @@ class GameInfo {
 
         this.playername = document.getElementById("username_in").value
         this.serverIp = document.getElementById("serverip").value
-        this.serverPort = document.getElementById("serverport").value
         this.hostPort = document.getElementById("hostserverport").value
 
     }
@@ -57,7 +56,7 @@ class GameInfo {
         // updates the game info menu
 
         document.getElementById("gmmserverip").textContent=this.serverIp
-        document.getElementById("gmmserverport").textContent=this.serverPort
+        document.getElementById("gmmserverport").textContent=this.hostPort
         document.getElementById("gameinforound").textContent=this.no_rounds
         document.getElementById("gameInfoPlayerName").textContent=this.playername
         document.getElementById("gameInfoPlayerScore").textContent=this.scores[0]
@@ -243,14 +242,25 @@ class GameSession {
     }
 
 
-    square_click_callback(index){ // NOTE: ONLY CALLED WHEN BUTTON IS CLICKED
+
+    square_click_callback(index){
+        // Callback for player turn
+        // NOTE: ONLY CALLED WHEN BUTTON IS CLICKED
+
+        // Check game mode. if is guest, then only send request to server
+        if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){
+            // todo add in send request to server function
+
+            return;
+        }
+
+
         // check if is player's turn
         if (!this.isplayer_turn){return}
 
         // Check if index is alr used
         if (getSquareByIndex(index).dataset.state!=0){return;}
 
-        // Callback for player turn
 
         // change gui square state
         setSquareState(index,1)
@@ -278,7 +288,6 @@ class GameSession {
 
 
         // if singleplayer, call "AI"
-        console.log(this.gameInfo.gameType,GameSessionTypeEnum.Singleplayer)
         if (this.gameInfo.gameType==GameSessionTypeEnum.Singleplayer){gameAiChoose()}
 
 
@@ -350,11 +359,21 @@ var currentSession = null
 function startNewSession(session_type){
     if (currentSession!=null){
         currentSession.end()
-
     }
+
+
+
     currentSession = new GameSession()
     currentSession.set_gameInfo(new GameInfo(session_type))
     currentSession.gameInfo.getInfo()
+
+    // if hosting session, set server ip to self.
+    if (session_type==GameSessionTypeEnum.Hosting){
+        currentSession.gameInfo.serverIp="localhost"
+        currentSession.gameInfo.is_host = true
+    }
+
+
     // Enable round control button
     document.getElementById("roundControlbutton").textContent="Quit"
     document.getElementById("roundControlbutton").disabled=false
