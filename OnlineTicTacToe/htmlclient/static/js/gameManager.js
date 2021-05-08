@@ -101,13 +101,18 @@ function gameAiChoose(){
     let chosen=null;
     // Helper function for ai
     function gameAidecider(index1,index2,index3){
-        if (getSquareByIndex(index1).dataset.state==1 && getSquareByIndex(index2).dataset.state==1){
+        let state1 = getSquareByIndex(index1).dataset.state
+        let state2 = getSquareByIndex(index2).dataset.state
+        let state3 = getSquareByIndex(index3).dataset.state
+
+
+        if ((state1==1 && state2==1)||(state1==2&&state2==2)){
             chosen = index3
         }
-        else if (getSquareByIndex(index3).dataset.state==1 && getSquareByIndex(index2).dataset.state==1){
+        else if ((state3==1 && state2==1)||(state3==2&&state2==2)){
             chosen = index1
         }
-        else if (getSquareByIndex(index1).dataset.state==1 && getSquareByIndex(index3).dataset.state==1){
+        else if ((state1==1 && state3==1)||(state1==2&&state3==2)){
             chosen = index2
         }
 
