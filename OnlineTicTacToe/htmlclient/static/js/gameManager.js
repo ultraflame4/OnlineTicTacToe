@@ -34,19 +34,35 @@ const GameEndReasons = Object.freeze({
 class GameInfo {
     constructor(gameSessionType) {
         this.playername = ""
+        this.enemyName = ""
         this.serverIp = ""
         this.serverPort = ""
         this.hostPort = ""
         this.verified = false
         this.gameType=gameSessionType
+        this.no_rounds = 0 // Number of rounds
+        this.scores = [0,0]
     }
 
     getInfo() {
+
         this.playername = document.getElementById("username_in").value
         this.serverIp = document.getElementById("serverip").value
         this.serverPort = document.getElementById("serverport").value
         this.hostPort = document.getElementById("hostserverport").value
 
+    }
+
+    updatemenu(){
+        // updates the game info menu
+
+        document.getElementById("gmmserverip").textContent=this.serverIp
+        document.getElementById("gmmserverport").textContent=this.serverPort
+        document.getElementById("gameinforound").textContent=this.no_rounds
+        document.getElementById("gameInfoPlayerName").textContent=this.playername
+        document.getElementById("gameInfoPlayerScore").textContent=this.scores[0]
+        document.getElementById("gameInfoEnemyName").textContent=this.enemyName
+        document.getElementById("gameInfoEnemyScore").textContent=this.scores[1]
     }
 }
 
@@ -67,12 +83,6 @@ function squareIndexIsSelfstate(index1,index2,index3,self_state){
     }
     return false
 }
-
-
-
-
-
-
 
 // helper "ai" function for singleplayer
 function gameAiChoose(){
@@ -133,9 +143,6 @@ function gameAiChoose(){
     currentSession.enemy_click_callback(chosen)
 }
 
-
-
-
 function disableAllSquare(){
     for (let i = 0; i < 9; i++) {
         getSquareByIndex(i).disabled=true
@@ -148,6 +155,7 @@ function setAllSquaresState(state){
     }
 }
 
+
 // Note: This class is just for organisation and putting all functions for the current game session in 1 place
 //       there CANNOT be MORE THAN 1 session AT A TIME
 
@@ -155,10 +163,19 @@ class GameSession {
     constructor() {
         this.gameInfo=null
         this.isplayer_turn = true // True if is player turn. false if enemy turn
+        this.isInRound=false
     }
 
     set_gameInfo(gameInfo){
         this.gameInfo = gameInfo
+        this.gameInfo.getInfo()
+        if (gameInfo.gameType==GameSessionTypeEnum.Singleplayer){
+            gameInfo.enemyName="Computer"
+        }
+
+        this.gameInfo.updatemenu()
+        this.isInRound=true
+
     }
 
 
@@ -206,6 +223,8 @@ class GameSession {
         }
 
         if (this.check_win(true)){
+            // add 1 score to enemy
+            this.gameInfo.scores[1]+=1
             this.end_protocol(GameEndReasons.is_lose)
             return;
         }
@@ -242,6 +261,8 @@ class GameSession {
         this.isplayer_turn=false
         // Check if win.
         if (this.check_win()){
+            // Add 1 score to player
+            this.gameInfo.scores[0]+=1
             this.end_protocol(GameEndReasons.is_won)
             return;
         }
@@ -252,13 +273,25 @@ class GameSession {
 
 
         // if singleplayer, call "AI"
-        gameAiChoose()
+        console.log(this.gameInfo.gameType,GameSessionTypeEnum.Singleplayer)
+        if (this.gameInfo.gameType==GameSessionTypeEnum.Singleplayer){gameAiChoose()}
+
 
 
     }
 
     end_protocol(reason){
+        this.gameInfo.updatemenu()
         disableAllSquare()
+        this.isInRound=false
+        document.getElementById("roundControlbutton").textContent="New Round"
+        if (reason==GameEndReasons.quit){
+            this.reset()
+            this.end()
+            return
+        }
+
+
         setTimeout(() => {
             if (reason == GameEndReasons.is_won) {
                 alert("You Won!")
@@ -267,25 +300,42 @@ class GameSession {
             } else if (reason == GameEndReasons.is_tied) {
                 alert("Tied!")
             }
-            // placeholder code below, doesnt rly matter what to do when game ends. Destroy current game session
 
-            this.end()
         }, 500)
 
     }
 
-    end(){
+    reset(){
         // Reset state of the grid squares.
-        // by deleting all of them and regenerating them
         for (let i = 0; i < tableSquares.length; i++) {
             let t= getSquareByIndex(i)
             t.disabled=false
             t.dataset.state=0
         }
+    }
 
+    end(){
+        // disable round control
+        document.getElementById("roundControlbutton").textContent="N/A"
+        document.getElementById("roundControlbutton").disabled=true
         currentSession=null
     }
+
+    newRound(){
+        this.reset()
+        this.isplayer_turn=true
+        this.isInRound=true
+        // Change text on roundControlButton
+        document.getElementById("roundControlbutton").textContent="Quit"
+
+        this.gameInfo.no_rounds+=1
+
+        this.gameInfo.updatemenu()
+
+    }
 }
+
+
 
 
 
@@ -298,8 +348,12 @@ function startNewSession(session_type){
 
     }
     currentSession = new GameSession()
-    currentSession.set_gameInfo(new GameInfo())
+    currentSession.set_gameInfo(new GameInfo(session_type))
     currentSession.gameInfo.getInfo()
+    // Enable round control button
+    document.getElementById("roundControlbutton").textContent="Quit"
+    document.getElementById("roundControlbutton").disabled=false
+    openGameInfoMenu()
 }
 
 
@@ -313,4 +367,20 @@ function startgame(playType) {
     startNewSession(playType)
 
 
+}
+
+
+
+
+function roundControlButtonCallback(){
+    if (currentSession == null){return}
+    console.log(currentSession.isInRound)
+    if (currentSession.isInRound){
+        if (!confirm("Are you sure you want to quit?")){
+            return
+        }
+        currentSession.end_protocol(GameEndReasons.quit)
+    }else{
+        currentSession.newRound()
+    }
 }

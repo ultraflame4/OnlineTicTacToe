@@ -37,9 +37,12 @@
     width: 100%;
 }
 
-h1.MainMenuLabel {
+.MainMenuLabel {
+    font-weight: bold;
     font-size: 5vmin;
     padding: 2vmin;
+    padding-left: 0;
+
 
 }
 

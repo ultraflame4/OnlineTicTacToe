@@ -36,7 +36,7 @@
         <div id="MainMenuPage" class="menuPage" hidden="hidden">
             <div class="row">
                 <label class="label-input" for="username_in">Name</label>
-                <input class="input-label" type="text" id="username_in" placeholder="Enter name">
+                <input class="input-label" type="text" id="username_in" placeholder="Enter name" value="Player">
             </div>
             <div class="row">
                 <h1 class="MainMenuLabel" for="MMPlay">Singleplayer</h1>
@@ -63,9 +63,32 @@
                 <label class="label-input info-label" for="gmmserverport">Server Port</label>
                 <input class="input-label info-value" type="text" id="gmmserverport" value="N/A" disabled>
             </div>
+
+            
+            <div class="row" style="padding-left: 1em">
+                <h1 class="MainMenuLabel">Game Round: <span id="gameinforound">N/A</span></h1>
+            </div>
+            
+            <div class="row" style="padding-left: 1em">
+                <h1 class="MainMenuLabel" style="font-size: 4vmin">Player Scores:</h1>
+                <div class="row" style="padding-left: 1em">
+                    <div class="column" style="width: 50%">
+                        <div id="gameInfoPlayerName" class="row MainMenuLabel" style="font-size: 4vmin;text-align:right">You</div>
+                        <div id="gameInfoPlayerScore" class="row MainMenuLabel" style="text-align:right;color: #63f760">0</div>
+                    </div>
+                    <div class="column" style="width: 50%">
+                        <div id="gameInfoEnemyName" class="row MainMenuLabel" style="font-size: 4vmin">Enemy</div>
+                        <div id="gameInfoEnemyScore" class="row MainMenuLabel" style="color: #ff0000">0</div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button class="fwbutton" id="roundControlbutton" onclick="roundControlButtonCallback()" disabled>N/A</button>
+            </div>
         </div>
-        
-        
+    
+
         <!-- Join Menu Page -->
         <div id="joinMenuPage" class="menuPage" hidden="hidden">
             <div class="row">

@@ -47,7 +47,7 @@ input:enabled:focus {
 }
 
 
-text, label, h1, h2, h3, h4 {
+text, label, h1, h2, h3, h4 ,div,span{
     color: #a3a3a3;
 }
 
