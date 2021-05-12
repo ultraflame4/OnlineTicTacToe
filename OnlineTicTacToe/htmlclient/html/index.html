@@ -6,9 +6,12 @@
     <link rel="stylesheet" href="../static/css/gridSquare.css">
     <link rel="stylesheet" href="../static/css/configmenu.css">
     
+    
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
     <script type="text/javascript" src="../static/js/gridTable.js"></script>
     <script type="text/javascript" src="../static/js/configmenu.js"></script>
     <script type="text/javascript" src="../static/js/gameManager.js"></script>
+    <script type="text/javascript" src="../static/js/network.js"></script>
     <title>Title</title>
 </head>
 <body>
@@ -23,13 +26,16 @@
             <button type="button" id="menuGameButton" class="menuButton" data-state="inactive"
                     onclick="openGameInfoMenu()">Game
             </button>
-            <button type="button" id="menuJoinButton" class="menuButton" data-state="inactive"
-                    onclick="openJoinMenu()">Join
-            </button>
+    
             <button type="button" id="menuHostButton" class="menuButton" data-state="inactive"
                     onclick="openHostMenu()">Host
             </button>
-        
+    
+    
+            <button type="button" id="menuJoinButton" class="menuButton" data-state="inactive"
+                    onclick="openJoinMenu()">Join
+            </button>
+
         </div>
 
         <!-- Main Menu Page -->
@@ -56,14 +62,9 @@
         <div id="GameInfoMenuPage" class="menuPage" hidden="hidden">
         
             <div class="row">
-                <label class="label-input info-label" for="gmmserverip">Server Address</label>
-                <input class="input-label info-value" type="text" id="gmmserverip" value="N/A" disabled>
+                <label class="label-input info-label" for="gmmserverpeerid">Server Peer Id</label>
+                <input class="input-label info-value" type="text" id="gmmserverpeerid" value="N/A" disabled>
             </div>
-            <div class="row">
-                <label class="label-input info-label" for="gmmserverport">Server Port</label>
-                <input class="input-label info-value" type="text" id="gmmserverport" value="N/A" disabled>
-            </div>
-
             
             <div class="row" style="padding-left: 1em">
                 <h1 class="MainMenuLabel">Game Round: <span id="gameinforound">N/A</span></h1>
@@ -85,40 +86,37 @@
             </div>
             <div class="row">
                 <button class="fwbutton" id="roundControlbutton" onclick="roundControlButtonCallback()" disabled>N/A</button>
+                <button class="fwbutton" id="stopgameButton" onclick="stopSessionButton()" disabled>End Session</button>
             </div>
         </div>
-    
+
+
+
+        <!-- Host Menu Page -->
+        <div id="HostMenuPage" class="menuPage" hidden="hidden">
+            <div class="row">
+                <!-- todo, place the hosting info and mangement utilities ui here. eg, in waiting rooms, banning people, allowing spectators -->
+            </div>
+            <div class="row">
+                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="hostControlButton()">Host Game</button>
+            </div>
+        </div>
+
 
         <!-- Join Menu Page -->
         <div id="joinMenuPage" class="menuPage" hidden="hidden">
             <div class="row">
-                <label class="label-input" for="serverip">Server Address</label>
-                <input class="input-label" type="text" id="serverip" placeholder="Enter the server ip address">
+                <label class="label-input" for="serverpeerid">Server Peer Id</label>
+                <input class="input-label" type="text" id="serverpeerid" placeholder="Enter the server ip address">
             </div>
             <div class="row">
-                <label class="label-input" for="serverport">Server Port</label>
-                <input class="input-label" type="text" id="serverport" placeholder="Enter the server port">
-            </div>
-            <div class="row">
-                <button class="fwbutton playbutton" id="serveripJoinButton" type="button" onclick="startgame(2)" >Join
+                <button class="fwbutton playbutton" id="joinServer" type="button" onclick="startgame(2)" >Join
                 </button>
             </div>
         
         </div>
         
-        
-        <!-- Host Menu Page -->
-        <div id="HostMenuPage" class="menuPage" hidden="hidden">
-            <div class="row">
-                <label class="label-input" for="hostserverport">Host Server Port</label>
-                <input class="input-label" type="text" id="hostserverport"
-                       placeholder="Enter host server port (Leave blank for auto)">
-            </div>
-            <div class="row">
-                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="startgame(1)">Host Game</button>
-            </div>
-        </div>
-        
+
 
     
     </div>

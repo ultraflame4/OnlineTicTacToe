@@ -63,3 +63,9 @@ function squareClick(squareTag) {
         currentSession.square_click_callback(index)
     }
 }
+
+function setAllSquareDisabled(disabled=true){
+    for (let i = 0; i < 9; i++) {
+        getSquareByIndex(i).disabled=disabled
+    }
+}

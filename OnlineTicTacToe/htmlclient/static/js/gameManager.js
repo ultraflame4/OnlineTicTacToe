@@ -1,10 +1,4 @@
-// Handles the ui for the game
-// eg. collects the info needed for game
-//     - player name
-//     - joining/hosting
-//     - play button handles (Play,join,host)
 
-// eg. Updates ui (eg.updating server ip in game info tab)
 
 
 // helper random function
@@ -35,8 +29,7 @@ class GameInfo {
     constructor(gameSessionType) {
         this.playername = null
         this.enemyName = null
-        this.serverIp = null
-        this.hostPort = null
+        this.serverPeerId = null
         this.verified = false
         this.gameType=gameSessionType
         this.is_host = false
@@ -46,32 +39,31 @@ class GameInfo {
 
     getInfo() {
 
-        this.playername = document.getElementById("username_in").value
-        this.serverIp = document.getElementById("serverip").value
-        this.hostPort = document.getElementById("hostserverport").value
+        this.playername = (document.getElementById("username_in").value!="")?document.getElementById("username_in").value:"N/A"
+        this.serverPeerId = document.getElementById("serverpeerid").value
 
+    }
+
+    resetMenu(){
+        document.getElementById("gmmserverpeerid").value="N/A"
+        document.getElementById("gameinforound").textContent="N/A"
+        document.getElementById("gameInfoPlayerName").textContent="N/A"
+        document.getElementById("gameInfoPlayerScore").textContent="N/A"
+        document.getElementById("gameInfoEnemyName").textContent="N/A"
+        document.getElementById("gameInfoEnemyScore").textContent="N/A"
     }
 
     updatemenu(){
         // updates the game info menu
 
-        document.getElementById("gmmserverip").textContent=this.serverIp
-        document.getElementById("gmmserverport").textContent=this.hostPort
+        document.getElementById("gmmserverpeerid").value=this.serverPeerId
         document.getElementById("gameinforound").textContent=this.no_rounds
         document.getElementById("gameInfoPlayerName").textContent=this.playername
         document.getElementById("gameInfoPlayerScore").textContent=this.scores[0]
-        document.getElementById("gameInfoEnemyName").textContent=this.enemyName
+        document.getElementById("gameInfoEnemyName").textContent=(this.enemyName!=null)?this.enemyName:"N/A"
         document.getElementById("gameInfoEnemyScore").textContent=this.scores[1]
     }
 }
-
-// Network
-
-class GameNetworking{
-
-}
-
-
 
 // note. helper function
 function squareIndexIsSelfstate(index1,index2,index3,self_state){
@@ -147,11 +139,7 @@ function gameAiChoose(){
     currentSession.enemy_click_callback(chosen)
 }
 
-function disableAllSquare(){
-    for (let i = 0; i < 9; i++) {
-        getSquareByIndex(i).disabled=true
-    }
-}
+
 
 function setAllSquaresState(state){
     for (let i = 0; i < 9; i++) {
@@ -160,14 +148,40 @@ function setAllSquaresState(state){
 }
 
 
+const RoundControlButton = {
+    setQuit : ()=>{
+        let b = document.getElementById("roundControlbutton")
+        b.textContent="Quit Round"
+        b.disabled=false
+        document.getElementById("stopgameButton").disabled=false
+    },
+    setNew : ()=>{
+        let b = document.getElementById("roundControlbutton")
+        b.textContent="New Round"
+        b.disabled=false
+        document.getElementById("stopgameButton").disabled=false
+    },
+    setNone : ()=>{
+        let b = document.getElementById("roundControlbutton")
+        b.textContent="N/A"
+        b.disabled=true
+        document.getElementById("stopgameButton").disabled=true
+    },
+
+}
+
+
 // Note: This class is just for organisation and putting all functions for the current game session in 1 place
 //       there CANNOT be MORE THAN 1 session AT A TIME
+// todo future: Change to namespace.
 
 class GameSession {
     constructor() {
         this.gameInfo=null
         this.isplayer_turn = true // True if is player turn. false if enemy turn
         this.isInRound=false
+
+
     }
 
     set_gameInfo(gameInfo){
@@ -176,13 +190,8 @@ class GameSession {
         if (gameInfo.gameType==GameSessionTypeEnum.Singleplayer){
             gameInfo.enemyName="Computer"
         }
-
-        this.gameInfo.updatemenu()
-        this.isInRound=true
-
+        gameInfo.updatemenu()
     }
-
-
 
     check_win(isenemy=false){
         // Return true if player/enemy wins
@@ -247,10 +256,11 @@ class GameSession {
         // Callback for player turn
         // NOTE: ONLY CALLED WHEN BUTTON IS CLICKED
 
+        if (!this.isInRound){return;}
+
         // Check game mode. if is guest, then only send request to server
         if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){
             // todo add in send request to server function
-
             return;
         }
 
@@ -296,7 +306,7 @@ class GameSession {
 
     end_protocol(reason){
         this.gameInfo.updatemenu()
-        disableAllSquare()
+        setAllSquareDisabled()
         this.isInRound=false
         document.getElementById("roundControlbutton").textContent="New Round"
         if (reason==GameEndReasons.quit){
@@ -330,17 +340,18 @@ class GameSession {
 
     end(){
         // disable round control
-        document.getElementById("roundControlbutton").textContent="N/A"
-        document.getElementById("roundControlbutton").disabled=true
+        this.gameInfo.resetMenu()
+        this.gameInfo=null
+        RoundControlButton.setNone()
         currentSession=null
     }
 
-    newRound(){
+    newRound(_isplayerturn=true){
         this.reset()
-        this.isplayer_turn=true
+        this.isplayer_turn=_isplayerturn
         this.isInRound=true
         // Change text on roundControlButton
-        document.getElementById("roundControlbutton").textContent="Quit"
+        RoundControlButton.setQuit()
 
         this.gameInfo.no_rounds+=1
 
@@ -369,16 +380,24 @@ function startNewSession(session_type){
 
     // if hosting session, set server ip to self.
     if (session_type==GameSessionTypeEnum.Hosting){
-        currentSession.gameInfo.serverIp="localhost"
+        // todo, set peer id
+        currentSession.gameInfo.serverPeerId=null
         currentSession.gameInfo.is_host = true
+    }
+    else
+    {
+        // Enable round control button
+        RoundControlButton.setNew()
     }
 
 
-    // Enable round control button
-    document.getElementById("roundControlbutton").textContent="Quit"
-    document.getElementById("roundControlbutton").disabled=false
+
     openGameInfoMenu()
 }
+
+
+
+
 
 
 
@@ -398,13 +417,30 @@ function startgame(playType) {
 
 function roundControlButtonCallback(){
     if (currentSession == null){return}
-    console.log(currentSession.isInRound)
+
     if (currentSession.isInRound){
         if (!confirm("Are you sure you want to quit?")){
             return
         }
-        currentSession.end_protocol(GameEndReasons.quit)
+        currentSession.end_protocol(GameEndReasons.is_lose)
     }else{
         currentSession.newRound()
     }
+}
+
+
+function stopSessionButton(){
+    if (currentSession == null){return}
+
+    if (!confirm("Are you sure you want to quit this session?")){
+        return
+    }
+
+    if (currentSession.gameType==GameSessionTypeEnum.Hosting){
+        stopServer()
+    }
+
+    RoundControlButton.setNone()
+    currentSession.end_protocol(GameEndReasons.quit)
+
 }

@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("menuMainButton").click()
+    setAllSquareDisabled()
+
 })
 
 

@@ -1,2 +1,3 @@
 TODO:
-- improve ai. shld seek to win if possible.
+- use peerjs for networking
+    - Change server address and port to id
