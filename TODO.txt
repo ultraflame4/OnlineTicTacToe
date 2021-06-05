@@ -1,2 +1,3 @@
 TODO:
 - Add server network functions for quiting rounds
+- Add a ? query game invite link

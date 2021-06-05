@@ -94,8 +94,8 @@ function hostServer() {
         peer.on('connection',(conn)=>{
             console.log("New data connection from peer:",conn.peer)
             if (!already_connected && confirm("Incoming connection another player.\n" +
-                                                  "Player Name:\n" +conn.metadata.playername+
-                                                  "Peer Id: "+conn.peer)){
+                                                  "Player Name: " +conn.metadata.playername+
+                                                  "\nPeer Id:  "+conn.peer)){
 
                 conn.on('open',()=>{
                     console.log("Data connection ready")
