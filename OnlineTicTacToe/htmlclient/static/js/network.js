@@ -1,13 +1,4 @@
 var peer
-var conn
-
-
-var network = {
-    stopNetwork: stopNetworking,
-    hostServer: hostServer,
-    joinServer: joinServer,
-    hostControlButton: hostControlButton
-}
 
 const NetworkDataTypes = Object.freeze({
                                            "PlayerInfo": "playerinfo",
@@ -27,7 +18,7 @@ function createPeerInstance(open_callback) {
 
     console.log("Creating new peer instance...")
     peer = new peerjs.Peer()
-    peer.on('open', function (id) {
+    peer.on('open', () => {
         // Make ending session available
         document.getElementById("stopgameButton").disabled = false
         console.log("Peer id is: ", peer.id)
@@ -54,9 +45,11 @@ function createPeerInstance(open_callback) {
             case "server-error":
                 alert("Fatal Error: PeerJs cannot reach peer server")
                 alert("Multiplayer options are not available")
+                break
 
             case 'peer-unavailable':
                 alert("peer unavailable, peer id entered is not valid or corresponding is unreachable")
+                break
 
         }
 
@@ -107,9 +100,12 @@ function hostServer() {
                                 // allow player to create new round
                                 RoundControlButton.setNew()
 
+                                break
+
                             case NetworkDataTypes.GameSquareSet:
                                 console.log("enemy set square", data.index)
                                 cs.enemy_click_callback(data.index)
+                                break
 
                             default:
                                 break
@@ -151,7 +147,7 @@ function hostServer() {
                 conn.on("open", () => {
                     conn.send({type: NetworkDataTypes.ConnectionAccepted, value: false})
                     setTimeout(() => {
-                        connsole.log("Timeout: closing connection")
+                        console.log("Timeout: closing connection")
                         conn.close()
                     }, 1000)
                 })
@@ -218,14 +214,18 @@ function joinServer() {
                         cs.gameInfo.updatemenu()
                         cs.newRound(false)
 
+                        break
+
                     case NetworkDataTypes.GameSquareSet:
                         console.log("Recieved Set Square data", data.index)
                         setSquareState(data.index, data.state)
 
+                        break
+
                     case NetworkDataTypes.TurnChanged:
                         setAllSquareDisabled(data.isHostTurn)
 
-
+                        break;
                     default:
                         break
 
@@ -244,7 +244,7 @@ function joinServer() {
 }
 
 
-function hostControlButton(tag) {
+function hostControlButton() {
 
     hostServer()
 }
