@@ -69,10 +69,6 @@ function createPeerInstance(open_callback) {
 
 function stopNetworking(){
     console.log("Stopping Server!")
-    if (currentSession!=null){
-        console.log("Existing currentSession... Ending it.")
-        currentSession.end_protocol(GameEndReasons.quit)
-    }
     if (peer!=null)
     {
         peer.destroy()
@@ -83,14 +79,13 @@ function stopNetworking(){
 
 
 function hostServer() {
-    startgame(1)
+    let cs = startgame(1)
 
     createPeerInstance(()=>{
         // Set game info
-        if (currentSession != null){
-            currentSession.gameInfo.serverPeerId=peer.id
-            currentSession.gameInfo.updatemenu()
-        }
+        cs.gameInfo.serverPeerId=peer.id
+        cs.gameInfo.updatemenu()
+
         var already_connected= false
 
         peer.on('connection',(conn)=>{
@@ -102,15 +97,15 @@ function hostServer() {
                 conn.on('open',()=>{
                     console.log("Data connection ready")
                     // When connection accepted send player info to remote client
-                    conn.send({type:NetworkDataTypes.PlayerInfo,name:currentSession.gameInfo.playername})
+                    conn.send({type:NetworkDataTypes.PlayerInfo,name:cs.gameInfo.playername})
 
                     conn.on("data",(data)=>{
                         console.log("Recieved data from peer: ",conn.peer,"\nData:",data)
 
                         switch (data.type) {
                             case NetworkDataTypes.PlayerInfo:
-                                currentSession.gameInfo.enemyName=data.name
-                                currentSession.gameInfo.updatemenu()
+                                cs.gameInfo.enemyName=data.name
+                                cs.gameInfo.updatemenu()
 
 
                             default:
@@ -146,13 +141,13 @@ function hostServer() {
 
 function joinServer(){
 
-    startgame(2)
+    let cs = startgame(2)
 
     createPeerInstance(()=>{
         let targetid = document.getElementById("serverpeerid").value
         // connect to target
         let conn = peer.connect(targetid,{
-            metadata:{playername:currentSession.gameInfo.playername}
+            metadata:{playername:cs.gameInfo.playername}
         })
         console.log("connected to target peer of peer id:",targetid)
         conn.on('open',()=>{
@@ -160,7 +155,7 @@ function joinServer(){
             console.log("Sending player info..")
             conn.send({
                           type:NetworkDataTypes.PlayerInfo,
-                          name:currentSession.gameInfo.playername,
+                          name:cs.gameInfo.playername,
 
                       })
 
@@ -177,15 +172,15 @@ function joinServer(){
 
                         }
                         else{
-                            currentSession.gameInfo.serverPeerId = conn.peer
-                            currentSession.gameInfo.updatemenu()
+                            cs.gameInfo.serverPeerId = conn.peer
+                            cs.gameInfo.updatemenu()
                             console.log("Connection accepted")
                         }
                         break
 
                     case NetworkDataTypes.PlayerInfo:
-                        currentSession.gameInfo.enemyName=data.name
-                        currentSession.gameInfo.updatemenu()
+                        cs.gameInfo.enemyName=data.name
+                        cs.gameInfo.updatemenu()
                         break
 
                     default:

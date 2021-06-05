@@ -308,7 +308,8 @@ class GameSession {
         this.gameInfo.updatemenu()
         setAllSquareDisabled()
         this.isInRound=false
-        document.getElementById("roundControlbutton").textContent="New Round"
+        RoundControlButton.setNew()
+
         if (reason==GameEndReasons.quit){
             this.reset()
             this.end()
@@ -342,6 +343,7 @@ class GameSession {
     end(){
         RoundControlButton.setNone()
         document.getElementById("stopgameButton").disabled=true
+
         currentSession=null
 
         // If game type is hosting
@@ -354,6 +356,7 @@ class GameSession {
         this.gameInfo.resetMenu()
         this.gameInfo=null
 
+        delete this
     }
 
     newRound(_isplayerturn=true){
@@ -383,10 +386,18 @@ var currentSession = null
 
 
 
-// Helper function for starting new sessions
-function startNewSession(session_type){
+
+
+
+function startgame(session_type){
+    // playType: 0-singleplayer 1-Host&Play 2-joinGame
+    // Creates a new session
+
+
+    console.log("Starting game session of type: ",session_type)
+
     if (currentSession!=null){
-        currentSession.end()
+        currentSession.end_protocol(GameEndReasons.quit)
     }
 
 
@@ -411,25 +422,10 @@ function startNewSession(session_type){
 
     document.getElementById("stopgameButton").disabled=false
     openGameInfoMenu()
+
+    return currentSession
 }
 
-
-
-
-
-
-
-
-
-function startgame(playType) {
-    // playType: 0-singleplayer 1-Host&Play 2-joinGame
-    console.log("Starting game")
-    // Start new session
-
-    startNewSession(playType)
-
-
-}
 
 
 
