@@ -13,7 +13,10 @@ var network = {
 
 const NetworkDataTypes = Object.freeze({
     "PlayerInfo":"playerinfo",
-    "ConnectionAccepted":"connectionaccepted"
+    "ConnectionAccepted":"connectionaccepted",
+    "GameNewRound":"game_newround",
+    "GameSquareSet":"setsquare",
+    "TurnChanged":"turnchanged"
 
                                        })
 
@@ -106,7 +109,12 @@ function hostServer() {
                             case NetworkDataTypes.PlayerInfo:
                                 cs.gameInfo.enemyName=data.name
                                 cs.gameInfo.updatemenu()
+                                // allow player to create new round
+                                RoundControlButton.setNew()
 
+                            case NetworkDataTypes.GameSquareSet:
+                                console.log("enemy set square",data.index)
+                                cs.enemy_click_callback(data.index)
 
                             default:
                                 break
@@ -117,6 +125,29 @@ function hostServer() {
 
 
                     })
+
+                    GameEvents.on("newRound",(cs)=>{
+                        console.log("new round! sending to remote...")
+                        conn.send({
+                                      type: NetworkDataTypes.GameNewRound,
+                                      hostScore: cs.gameInfo.scores[0],
+                                      guestScore: cs.gameInfo.scores[1],
+                                      noRounds: cs.gameInfo.no_rounds
+                                  });
+                    })
+
+                    GameEvents.on("setSquare",(index_,state_)=>{
+                        conn.send({
+                                      type: NetworkDataTypes.GameSquareSet,
+                                      index: index_,
+                                      state: state_
+                                  })
+                    })
+
+                    GameEvents.on("changeTurn",(ishostturn)=>{
+                        conn.send({type:NetworkDataTypes.TurnChanged,isHostTurn:ishostturn})
+                    })
+
                 })
 
             }
@@ -175,6 +206,7 @@ function joinServer(){
                             cs.gameInfo.serverPeerId = conn.peer
                             cs.gameInfo.updatemenu()
                             console.log("Connection accepted")
+
                         }
                         break
 
@@ -183,10 +215,32 @@ function joinServer(){
                         cs.gameInfo.updatemenu()
                         break
 
+                    case NetworkDataTypes.GameNewRound:
+                        console.log("new round! from host")
+                        cs.isInRound=true
+                        cs.gameInfo.no_rounds=data.noRounds
+                        cs.gameInfo.scores[0]=data.guestScore
+                        cs.gameInfo.scores[1]=data.hostScore
+                        cs.gameInfo.updatemenu()
+                        cs.newRound(false)
+
+                    case NetworkDataTypes.GameSquareSet:
+                        console.log("Recieved Set Square data",data.index)
+                        setSquareState(data.index,data.state)
+
+                    case NetworkDataTypes.TurnChanged:
+                        setAllSquareDisabled(data.isHostTurn)
+
+
                     default:
                         break
 
                 }
+            })
+
+            GameEvents.on("rSetSquare",(index_)=>{
+                console.log("sefning setSquare",index_)
+                conn.send({type:NetworkDataTypes.GameSquareSet,index: index_})
             })
         })
 

@@ -23,6 +23,24 @@ const GameEndReasons = Object.freeze({
 )
 
 
+class _gameevents {
+    constructor() {
+        this.events={"newRound":[],"roundEnd":[],"changeTurn":[],"setSquare":[],"rSetSquare":[]}
+    }
+
+    on(e,callback){
+        this.events[e].push(callback)
+    }
+
+    dispatch(e,arg1,arg2){
+        this.events[e].forEach((val,index,array)=>{
+            val(arg1,arg2)
+        })
+    }
+
+}
+
+var GameEvents=new _gameevents()
 
 
 class GameInfo {
@@ -224,12 +242,14 @@ class GameSession {
     // seperate call back for enemy, -> easier to implement multiplayer ltr
     enemy_click_callback(index){
         if (this.isplayer_turn){return}
+
         if (getSquareByIndex(index).dataset.state!=0){return;}
+
+        GameEvents.dispatch("setSquare",index,1)
 
         console.log("ENEMY: ",index)
         setSquareState(index,2)
-        // change turns
-        this.isplayer_turn=true
+
         // reenable buttons after enemy turn
         for (let i = 0; i < 9; i++) {
             getSquareByIndex(i).disabled=false
@@ -246,7 +266,9 @@ class GameSession {
             return;
         }
 
-
+        // change turns
+        this.isplayer_turn=true
+        GameEvents.dispatch("changeTurn",this.isplayer_turn)
 
     }
 
@@ -260,7 +282,8 @@ class GameSession {
 
         // Check game mode. if is guest, then only send request to server
         if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){
-            // todo add in send request to server function
+            // send request to server
+            GameEvents.dispatch("rSetSquare",index)
             return;
         }
 
@@ -271,6 +294,8 @@ class GameSession {
         // Check if index is alr used
         if (getSquareByIndex(index).dataset.state!=0){return;}
 
+        // dispatch event (sent to guest)
+        GameEvents.dispatch("setSquare",index,2)
 
         // change gui square state
         setSquareState(index,1)
@@ -283,7 +308,6 @@ class GameSession {
             }
         }
 
-        this.isplayer_turn=false
         // Check if win.
         if (this.check_win()){
             // Add 1 score to player
@@ -296,6 +320,8 @@ class GameSession {
             return;
         }
 
+        this.isplayer_turn=false
+        GameEvents.dispatch("changeTurn",this.isplayer_turn)
 
         // if singleplayer, call "AI"
         if (this.gameInfo.gameType==GameSessionTypeEnum.Singleplayer){gameAiChoose()}
@@ -360,11 +386,13 @@ class GameSession {
     }
 
     newRound(_isplayerturn=true){
-        if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){return}
 
         this.reset()
-        // Enable squares
-        setAllSquareDisabled(false)
+
+        // Enable squares if is player turn
+        setAllSquareDisabled(!_isplayerturn)
+
+        if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){return}
 
         this.isplayer_turn=_isplayerturn
         this.isInRound=true
@@ -375,6 +403,9 @@ class GameSession {
 
         this.gameInfo.updatemenu()
 
+        if (this.gameInfo.gameType==GameSessionTypeEnum.Hosting){
+            GameEvents.dispatch("newRound",this)
+        }
     }
 }
 
