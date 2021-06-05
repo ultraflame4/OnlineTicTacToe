@@ -34,13 +34,14 @@ class GameInfo {
         this.gameType=gameSessionType
         this.is_host = false
         this.no_rounds = 0 // Number of rounds
-        this.scores = [0,0]
+        this.scores = [0,0]  //[player score, enemy score]
     }
+
+
 
     getInfo() {
 
         this.playername = (document.getElementById("username_in").value!="")?document.getElementById("username_in").value:"N/A"
-        this.serverPeerId = document.getElementById("serverpeerid").value
 
     }
 
@@ -165,7 +166,6 @@ const RoundControlButton = {
         let b = document.getElementById("roundControlbutton")
         b.textContent="N/A"
         b.disabled=true
-        document.getElementById("stopgameButton").disabled=true
     },
 
 }
@@ -316,6 +316,8 @@ class GameSession {
         }
 
 
+
+
         setTimeout(() => {
             if (reason == GameEndReasons.is_won) {
                 alert("You Won!")
@@ -333,21 +335,34 @@ class GameSession {
         // Reset state of the grid squares.
         for (let i = 0; i < tableSquares.length; i++) {
             let t= getSquareByIndex(i)
-            t.disabled=false
             t.dataset.state=0
         }
     }
 
     end(){
+        RoundControlButton.setNone()
+        document.getElementById("stopgameButton").disabled=true
+        currentSession=null
+
+        // If game type is hosting
+        if (this.gameInfo.gameType === GameSessionTypeEnum.Hosting){
+            console.log("Gametype is hosting, stopping host")
+            stopNetworking()
+        }
+
         // disable round control
         this.gameInfo.resetMenu()
         this.gameInfo=null
-        RoundControlButton.setNone()
-        currentSession=null
+
     }
 
     newRound(_isplayerturn=true){
+        if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){return}
+
         this.reset()
+        // Enable squares
+        setAllSquareDisabled(false)
+
         this.isplayer_turn=_isplayerturn
         this.isInRound=true
         // Change text on roundControlButton
@@ -366,6 +381,8 @@ class GameSession {
 
 var currentSession = null
 
+
+
 // Helper function for starting new sessions
 function startNewSession(session_type){
     if (currentSession!=null){
@@ -378,20 +395,21 @@ function startNewSession(session_type){
     currentSession.set_gameInfo(new GameInfo(session_type))
     currentSession.gameInfo.getInfo()
 
+
     // if hosting session, set server ip to self.
     if (session_type==GameSessionTypeEnum.Hosting){
         // todo, set peer id
         currentSession.gameInfo.serverPeerId=null
         currentSession.gameInfo.is_host = true
     }
-    else
+    else if (session_type!=GameSessionTypeEnum.Guest)
     {
         // Enable round control button
         RoundControlButton.setNew()
     }
 
 
-
+    document.getElementById("stopgameButton").disabled=false
     openGameInfoMenu()
 }
 
@@ -407,6 +425,7 @@ function startgame(playType) {
     // playType: 0-singleplayer 1-Host&Play 2-joinGame
     console.log("Starting game")
     // Start new session
+
     startNewSession(playType)
 
 
@@ -437,10 +456,10 @@ function stopSessionButton(){
     }
 
     if (currentSession.gameType==GameSessionTypeEnum.Hosting){
-        stopServer()
+        stopNetworking()
     }
 
-    RoundControlButton.setNone()
     currentSession.end_protocol(GameEndReasons.quit)
+    RoundControlButton.setNone()
 
 }
