@@ -1,29 +1,26 @@
-
-
 var peer
 var conn
 
 
 var network = {
-    stopNetwork:stopNetworking,
-    hostServer:hostServer,
-    joinServer:joinServer,
-    hostControlButton:hostControlButton
+    stopNetwork: stopNetworking,
+    hostServer: hostServer,
+    joinServer: joinServer,
+    hostControlButton: hostControlButton
 }
 
 const NetworkDataTypes = Object.freeze({
-    "PlayerInfo":"playerinfo",
-    "ConnectionAccepted":"connectionaccepted",
-    "GameNewRound":"game_newround",
-    "GameSquareSet":"setsquare",
-    "TurnChanged":"turnchanged"
+                                           "PlayerInfo": "playerinfo",
+                                           "ConnectionAccepted": "connectionaccepted",
+                                           "GameNewRound": "game_newround",
+                                           "GameSquareSet": "setsquare",
+                                           "TurnChanged": "turnchanged"
 
                                        })
 
 
-
 function createPeerInstance(open_callback) {
-    if (peer!=null){
+    if (peer != null) {
         console.log("Existing peer instance found, stopping that instance...")
         stopNetworking()
     }
@@ -32,8 +29,8 @@ function createPeerInstance(open_callback) {
     peer = new peerjs.Peer()
     peer.on('open', function (id) {
         // Make ending session available
-        document.getElementById("stopgameButton").disabled=false
-        console.log("Peer id is: ",peer.id)
+        document.getElementById("stopgameButton").disabled = false
+        console.log("Peer id is: ", peer.id)
 
         open_callback()
 
@@ -41,9 +38,9 @@ function createPeerInstance(open_callback) {
         RoundControlButton.setNone()
     })
 
-    peer.on('error',(err)=>{
+    peer.on('error', (err) => {
         stopNetworking()
-        console.log("Error:",err)
+        console.log("Error:", err)
         switch (err.type) {
             case "browser-incompaitible":
                 alert("Fatal Error: Your browser is not compaitible with peerjs.")
@@ -64,16 +61,14 @@ function createPeerInstance(open_callback) {
         }
 
 
-
     })
 
 }
 
 
-function stopNetworking(){
+function stopNetworking() {
     console.log("Stopping Server!")
-    if (peer!=null)
-    {
+    if (peer != null) {
         peer.destroy()
         peer = null
     }
@@ -84,36 +79,36 @@ function stopNetworking(){
 function hostServer() {
     let cs = startgame(1)
 
-    createPeerInstance(()=>{
+    createPeerInstance(() => {
         // Set game info
-        cs.gameInfo.serverPeerId=peer.id
+        cs.gameInfo.serverPeerId = peer.id
         cs.gameInfo.updatemenu()
 
-        var already_connected= false
+        var already_connected = false
 
-        peer.on('connection',(conn)=>{
-            console.log("New data connection from peer:",conn.peer)
+        peer.on('connection', (conn) => {
+            console.log("New data connection from peer:", conn.peer)
             if (!already_connected && confirm("Incoming connection another player.\n" +
-                                                  "Player Name: " +conn.metadata.playername+
-                                                  "\nPeer Id:  "+conn.peer)){
+                                                  "Player Name: " + conn.metadata.playername +
+                                                  "\nPeer Id:  " + conn.peer)) {
 
-                conn.on('open',()=>{
+                conn.on('open', () => {
                     console.log("Data connection ready")
                     // When connection accepted send player info to remote client
-                    conn.send({type:NetworkDataTypes.PlayerInfo,name:cs.gameInfo.playername})
+                    conn.send({type: NetworkDataTypes.PlayerInfo, name: cs.gameInfo.playername})
 
-                    conn.on("data",(data)=>{
-                        console.log("Recieved data from peer: ",conn.peer,"\nData:",data)
+                    conn.on("data", (data) => {
+                        console.log("Recieved data from peer: ", conn.peer, "\nData:", data)
 
                         switch (data.type) {
                             case NetworkDataTypes.PlayerInfo:
-                                cs.gameInfo.enemyName=data.name
+                                cs.gameInfo.enemyName = data.name
                                 cs.gameInfo.updatemenu()
                                 // allow player to create new round
                                 RoundControlButton.setNew()
 
                             case NetworkDataTypes.GameSquareSet:
-                                console.log("enemy set square",data.index)
+                                console.log("enemy set square", data.index)
                                 cs.enemy_click_callback(data.index)
 
                             default:
@@ -121,12 +116,12 @@ function hostServer() {
                         }
 
 
-                        conn.send({type:NetworkDataTypes.ConnectionAccepted,value:true})
+                        conn.send({type: NetworkDataTypes.ConnectionAccepted, value: true})
 
 
                     })
 
-                    GameEvents.on("newRound",(cs)=>{
+                    GameEvents.on("newRound", (cs) => {
                         console.log("new round! sending to remote...")
                         conn.send({
                                       type: NetworkDataTypes.GameNewRound,
@@ -136,7 +131,7 @@ function hostServer() {
                                   });
                     })
 
-                    GameEvents.on("setSquare",(index_,state_)=>{
+                    GameEvents.on("setSquare", (index_, state_) => {
                         conn.send({
                                       type: NetworkDataTypes.GameSquareSet,
                                       index: index_,
@@ -144,21 +139,21 @@ function hostServer() {
                                   })
                     })
 
-                    GameEvents.on("changeTurn",(ishostturn)=>{
-                        conn.send({type:NetworkDataTypes.TurnChanged,isHostTurn:ishostturn})
+                    GameEvents.on("changeTurn", (ishostturn) => {
+                        conn.send({type: NetworkDataTypes.TurnChanged, isHostTurn: ishostturn})
                     })
 
                 })
 
-            }
-        else // If conenction was not accepted
-        {
+            } else // If conenction was not accepted
+            {
                 console.log("Rejecting connection... when channel ready")
-                conn.on("open",()=>{
-                    conn.send({type:NetworkDataTypes.ConnectionAccepted,value:false})
-                    setTimeout(()=>{
+                conn.on("open", () => {
+                    conn.send({type: NetworkDataTypes.ConnectionAccepted, value: false})
+                    setTimeout(() => {
                         connsole.log("Timeout: closing connection")
-                        conn.close()},1000)
+                        conn.close()
+                    }, 1000)
                 })
 
             }
@@ -170,39 +165,38 @@ function hostServer() {
 }
 
 
-function joinServer(){
+function joinServer() {
 
     let cs = startgame(2)
 
-    createPeerInstance(()=>{
+    createPeerInstance(() => {
         let targetid = document.getElementById("serverpeerid").value
         // connect to target
-        let conn = peer.connect(targetid,{
-            metadata:{playername:cs.gameInfo.playername}
+        let conn = peer.connect(targetid, {
+            metadata: {playername: cs.gameInfo.playername}
         })
-        console.log("connected to target peer of peer id:",targetid)
-        conn.on('open',()=>{
+        console.log("connected to target peer of peer id:", targetid)
+        conn.on('open', () => {
             console.log("Data connection ready")
             console.log("Sending player info..")
             conn.send({
-                          type:NetworkDataTypes.PlayerInfo,
-                          name:cs.gameInfo.playername,
+                          type: NetworkDataTypes.PlayerInfo,
+                          name: cs.gameInfo.playername,
 
                       })
 
 
-            conn.on("data",(data)=>{
+            conn.on("data", (data) => {
                 switch (data.type) {
 
                     case NetworkDataTypes.ConnectionAccepted:
-                        if (!data.value){
+                        if (!data.value) {
                             console.log("Connection rejected")
                             conn.close()
                             stopNetworking()
                             alert("Error, Host did not accept your connection")
 
-                        }
-                        else{
+                        } else {
                             cs.gameInfo.serverPeerId = conn.peer
                             cs.gameInfo.updatemenu()
                             console.log("Connection accepted")
@@ -211,22 +205,22 @@ function joinServer(){
                         break
 
                     case NetworkDataTypes.PlayerInfo:
-                        cs.gameInfo.enemyName=data.name
+                        cs.gameInfo.enemyName = data.name
                         cs.gameInfo.updatemenu()
                         break
 
                     case NetworkDataTypes.GameNewRound:
                         console.log("new round! from host")
-                        cs.isInRound=true
-                        cs.gameInfo.no_rounds=data.noRounds
-                        cs.gameInfo.scores[0]=data.guestScore
-                        cs.gameInfo.scores[1]=data.hostScore
+                        cs.isInRound = true
+                        cs.gameInfo.no_rounds = data.noRounds
+                        cs.gameInfo.scores[0] = data.guestScore
+                        cs.gameInfo.scores[1] = data.hostScore
                         cs.gameInfo.updatemenu()
                         cs.newRound(false)
 
                     case NetworkDataTypes.GameSquareSet:
-                        console.log("Recieved Set Square data",data.index)
-                        setSquareState(data.index,data.state)
+                        console.log("Recieved Set Square data", data.index)
+                        setSquareState(data.index, data.state)
 
                     case NetworkDataTypes.TurnChanged:
                         setAllSquareDisabled(data.isHostTurn)
@@ -238,24 +232,19 @@ function joinServer(){
                 }
             })
 
-            GameEvents.on("rSetSquare",(index_)=>{
-                console.log("sefning setSquare",index_)
-                conn.send({type:NetworkDataTypes.GameSquareSet,index: index_})
+            GameEvents.on("rSetSquare", (index_) => {
+                console.log("sefning setSquare", index_)
+                conn.send({type: NetworkDataTypes.GameSquareSet, index: index_})
             })
         })
 
     })
 
 
-
-
 }
 
 
-
-
-
-function hostControlButton(tag){
+function hostControlButton(tag) {
 
     hostServer()
 }

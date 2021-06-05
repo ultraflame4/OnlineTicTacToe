@@ -1,6 +1,3 @@
-
-
-
 // helper random function
 function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -8,39 +5,39 @@ function getRandomInt(max) {
 
 
 const GameSessionTypeEnum = Object.freeze({
-    "Singleplayer":0,
-    "Hosting":1,
-    "Guest":2
-    }
+                                              "Singleplayer": 0,
+                                              "Hosting": 1,
+                                              "Guest": 2
+                                          }
 )
 
 const GameEndReasons = Object.freeze({
-        "quit":0,
-        "is_won":1,
-        "is_lose":2,
-        "is_tied":3
-    }
+                                         "quit": 0,
+                                         "is_won": 1,
+                                         "is_lose": 2,
+                                         "is_tied": 3
+                                     }
 )
 
 
 class _gameevents {
     constructor() {
-        this.events={"newRound":[],"roundEnd":[],"changeTurn":[],"setSquare":[],"rSetSquare":[]}
+        this.events = {"newRound": [], "roundEnd": [], "changeTurn": [], "setSquare": [], "rSetSquare": []}
     }
 
-    on(e,callback){
+    on(e, callback) {
         this.events[e].push(callback)
     }
 
-    dispatch(e,arg1,arg2){
-        this.events[e].forEach((val,index,array)=>{
-            val(arg1,arg2)
+    dispatch(e, arg1, arg2) {
+        this.events[e].forEach((val, index, array) => {
+            val(arg1, arg2)
         })
     }
 
 }
 
-var GameEvents=new _gameevents()
+var GameEvents = new _gameevents()
 
 
 class GameInfo {
@@ -49,45 +46,46 @@ class GameInfo {
         this.enemyName = null
         this.serverPeerId = null
         this.verified = false
-        this.gameType=gameSessionType
+        this.gameType = gameSessionType
         this.is_host = false
         this.no_rounds = 0 // Number of rounds
-        this.scores = [0,0]  //[player score, enemy score]
+        this.scores = [0, 0]  //[player score, enemy score]
     }
-
 
 
     getInfo() {
 
-        this.playername = (document.getElementById("username_in").value!="")?document.getElementById("username_in").value:"N/A"
+        this.playername = (document.getElementById("username_in").value != "") ? document.getElementById(
+            "username_in").value : "N/A"
 
     }
 
-    resetMenu(){
-        document.getElementById("gmmserverpeerid").value="N/A"
-        document.getElementById("gameinforound").textContent="N/A"
-        document.getElementById("gameInfoPlayerName").textContent="N/A"
-        document.getElementById("gameInfoPlayerScore").textContent="N/A"
-        document.getElementById("gameInfoEnemyName").textContent="N/A"
-        document.getElementById("gameInfoEnemyScore").textContent="N/A"
+    resetMenu() {
+        document.getElementById("gmmserverpeerid").value = "N/A"
+        document.getElementById("gameinforound").textContent = "N/A"
+        document.getElementById("gameInfoPlayerName").textContent = "N/A"
+        document.getElementById("gameInfoPlayerScore").textContent = "N/A"
+        document.getElementById("gameInfoEnemyName").textContent = "N/A"
+        document.getElementById("gameInfoEnemyScore").textContent = "N/A"
     }
 
-    updatemenu(){
+    updatemenu() {
         // updates the game info menu
 
-        document.getElementById("gmmserverpeerid").value=this.serverPeerId
-        document.getElementById("gameinforound").textContent=this.no_rounds
-        document.getElementById("gameInfoPlayerName").textContent=this.playername
-        document.getElementById("gameInfoPlayerScore").textContent=this.scores[0]
-        document.getElementById("gameInfoEnemyName").textContent=(this.enemyName!=null)?this.enemyName:"N/A"
-        document.getElementById("gameInfoEnemyScore").textContent=this.scores[1]
+        document.getElementById("gmmserverpeerid").value = this.serverPeerId
+        document.getElementById("gameinforound").textContent = this.no_rounds
+        document.getElementById("gameInfoPlayerName").textContent = this.playername
+        document.getElementById("gameInfoPlayerScore").textContent = this.scores[0]
+        document.getElementById("gameInfoEnemyName").textContent = (this.enemyName != null) ? this.enemyName : "N/A"
+        document.getElementById("gameInfoEnemyScore").textContent = this.scores[1]
     }
 }
 
 // note. helper function
-function squareIndexIsSelfstate(index1,index2,index3,self_state){
+function squareIndexIsSelfstate(index1, index2, index3, self_state) {
 
-    if (getSquareByIndex(index1).dataset.state==self_state&&getSquareByIndex(index2).dataset.state==self_state&&getSquareByIndex(index3).dataset.state==self_state){
+    if (getSquareByIndex(index1).dataset.state == self_state && getSquareByIndex(
+        index2).dataset.state == self_state && getSquareByIndex(index3).dataset.state == self_state) {
 
         return true
     }
@@ -95,39 +93,37 @@ function squareIndexIsSelfstate(index1,index2,index3,self_state){
 }
 
 // helper "ai" function for singleplayer
-function gameAiChoose(){
+function gameAiChoose() {
     let valid_index = []
 
     for (let i = 0; i < 9; i++) {
         let t = getSquareByIndex(i)
-        if (t.dataset.state==0){
+        if (t.dataset.state == 0) {
             valid_index.push(i)
 
         }
     }
 
 
+    let chosen = null;
 
-    let chosen=null;
     // Helper function for ai
-    function gameAidecider(index1,index2,index3){
+    function gameAidecider(index1, index2, index3) {
         let state1 = getSquareByIndex(index1).dataset.state
         let state2 = getSquareByIndex(index2).dataset.state
         let state3 = getSquareByIndex(index3).dataset.state
 
 
-        if ((state1==1 && state2==1)||(state1==2&&state2==2)){
+        if ((state1 == 1 && state2 == 1) || (state1 == 2 && state2 == 2)) {
             chosen = index3
-        }
-        else if ((state3==1 && state2==1)||(state3==2&&state2==2)){
+        } else if ((state3 == 1 && state2 == 1) || (state3 == 2 && state2 == 2)) {
             chosen = index1
-        }
-        else if ((state1==1 && state3==1)||(state1==2&&state3==2)){
+        } else if ((state1 == 1 && state3 == 1) || (state1 == 2 && state3 == 2)) {
             chosen = index2
         }
 
 
-        if (chosen!=null && getSquareByIndex(chosen).dataset.state==0){
+        if (chosen != null && getSquareByIndex(chosen).dataset.state == 0) {
             return true
         }
 
@@ -136,19 +132,22 @@ function gameAiChoose(){
     }
 
     // vertical
-    if (gameAidecider(0,1,2)){}
-    else if (gameAidecider(3,4,5)){}
-    else if (gameAidecider(6,7,8)){}
+    if (gameAidecider(0, 1, 2)) {
+    } else if (gameAidecider(3, 4, 5)) {
+    } else if (gameAidecider(6, 7, 8)) {
+    }
     //horizontal
-    else if (gameAidecider(0,3,6)){}
-    else if (gameAidecider(1,4,7)){}
-    else if (gameAidecider(2,5,8)){}
+    else if (gameAidecider(0, 3, 6)) {
+    } else if (gameAidecider(1, 4, 7)) {
+    } else if (gameAidecider(2, 5, 8)) {
+    }
     // diagonal
-    else if (gameAidecider(0,4,8)){}
-    else if (gameAidecider(2,4,6)){}
+    else if (gameAidecider(0, 4, 8)) {
+    } else if (gameAidecider(2, 4, 6)) {
+    }
 
     // Randomly chose 1 square from valid
-    else{
+    else {
 
         chosen = getRandomInt(valid_index.length - 1)
         currentSession.enemy_click_callback(valid_index[chosen])
@@ -159,31 +158,30 @@ function gameAiChoose(){
 }
 
 
-
-function setAllSquaresState(state){
+function setAllSquaresState(state) {
     for (let i = 0; i < 9; i++) {
-        getSquareByIndex(i).dataset.state=state
+        getSquareByIndex(i).dataset.state = state
     }
 }
 
 
 const RoundControlButton = {
-    setQuit : ()=>{
+    setQuit: () => {
         let b = document.getElementById("roundControlbutton")
-        b.textContent="Quit Round"
-        b.disabled=false
-        document.getElementById("stopgameButton").disabled=false
+        b.textContent = "Quit Round"
+        b.disabled = false
+        document.getElementById("stopgameButton").disabled = false
     },
-    setNew : ()=>{
+    setNew: () => {
         let b = document.getElementById("roundControlbutton")
-        b.textContent="New Round"
-        b.disabled=false
-        document.getElementById("stopgameButton").disabled=false
+        b.textContent = "New Round"
+        b.disabled = false
+        document.getElementById("stopgameButton").disabled = false
     },
-    setNone : ()=>{
+    setNone: () => {
         let b = document.getElementById("roundControlbutton")
-        b.textContent="N/A"
-        b.disabled=true
+        b.textContent = "N/A"
+        b.disabled = true
     },
 
 }
@@ -195,154 +193,178 @@ const RoundControlButton = {
 
 class GameSession {
     constructor() {
-        this.gameInfo=null
+        this.gameInfo = null
         this.isplayer_turn = true // True if is player turn. false if enemy turn
-        this.isInRound=false
+        this.isInRound = false
 
 
     }
 
-    set_gameInfo(gameInfo){
+    set_gameInfo(gameInfo) {
         this.gameInfo = gameInfo
         this.gameInfo.getInfo()
-        if (gameInfo.gameType==GameSessionTypeEnum.Singleplayer){
-            gameInfo.enemyName="Computer"
+        if (gameInfo.gameType == GameSessionTypeEnum.Singleplayer) {
+            gameInfo.enemyName = "Computer"
         }
         gameInfo.updatemenu()
     }
 
-    check_win(isenemy=false){
+    check_win(isenemy = false) {
         // Return true if player/enemy wins
         let self_state = (isenemy) ? 2 : 1
 
         // horizontal
-        if (squareIndexIsSelfstate(0,1,2,self_state)){return true}
-        if (squareIndexIsSelfstate(3,4,5,self_state)){return true}
-        if (squareIndexIsSelfstate(6,7,8,self_state)){return true}
+        if (squareIndexIsSelfstate(0, 1, 2, self_state)) {
+            return true
+        }
+        if (squareIndexIsSelfstate(3, 4, 5, self_state)) {
+            return true
+        }
+        if (squareIndexIsSelfstate(6, 7, 8, self_state)) {
+            return true
+        }
         //verticle
-        if (squareIndexIsSelfstate(0,3,6,self_state)){return true}
-        if (squareIndexIsSelfstate(1,4,7,self_state)){return true}
-        if (squareIndexIsSelfstate(2,5,8,self_state)){return true}
+        if (squareIndexIsSelfstate(0, 3, 6, self_state)) {
+            return true
+        }
+        if (squareIndexIsSelfstate(1, 4, 7, self_state)) {
+            return true
+        }
+        if (squareIndexIsSelfstate(2, 5, 8, self_state)) {
+            return true
+        }
         // diagonal
-        if (squareIndexIsSelfstate(0,4,8,self_state)){return true}
-        if (squareIndexIsSelfstate(2,4,6,self_state)){return true}
+        if (squareIndexIsSelfstate(0, 4, 8, self_state)) {
+            return true
+        }
+        if (squareIndexIsSelfstate(2, 4, 6, self_state)) {
+            return true
+        }
 
         return false
     }
 
 
-    check_tie(){
+    check_tie() {
         let all_used = true
         for (let i = 0; i < 9; i++) {
-            if (getSquareByIndex(i).dataset.state==0){all_used=false}
+            if (getSquareByIndex(i).dataset.state == 0) {
+                all_used = false
+            }
         }
         return all_used
     }
 
     // seperate call back for enemy, -> easier to implement multiplayer ltr
-    enemy_click_callback(index){
-        if (this.isplayer_turn){return}
+    enemy_click_callback(index) {
+        if (this.isplayer_turn) {
+            return
+        }
 
-        if (getSquareByIndex(index).dataset.state!=0){return;}
+        if (getSquareByIndex(index).dataset.state != 0) {
+            return;
+        }
 
-        GameEvents.dispatch("setSquare",index,1)
+        GameEvents.dispatch("setSquare", index, 1)
 
-        console.log("ENEMY: ",index)
-        setSquareState(index,2)
+        console.log("ENEMY: ", index)
+        setSquareState(index, 2)
 
         // reenable buttons after enemy turn
         for (let i = 0; i < 9; i++) {
-            getSquareByIndex(i).disabled=false
+            getSquareByIndex(i).disabled = false
         }
 
-        if (this.check_win(true)){
+        if (this.check_win(true)) {
             // add 1 score to enemy
-            this.gameInfo.scores[1]+=1
+            this.gameInfo.scores[1] += 1
             this.end_protocol(GameEndReasons.is_lose)
             return;
-        }
-        else if(this.check_tie()){
+        } else if (this.check_tie()) {
             this.end_protocol(GameEndReasons.is_tied)
             return;
         }
 
         // change turns
-        this.isplayer_turn=true
-        GameEvents.dispatch("changeTurn",this.isplayer_turn)
+        this.isplayer_turn = true
+        GameEvents.dispatch("changeTurn", this.isplayer_turn)
 
     }
 
 
-
-    square_click_callback(index){
+    square_click_callback(index) {
         // Callback for player turn
         // NOTE: ONLY CALLED WHEN BUTTON IS CLICKED
 
-        if (!this.isInRound){return;}
+        if (!this.isInRound) {
+            return;
+        }
 
         // Check game mode. if is guest, then only send request to server
-        if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){
+        if (this.gameInfo.gameType == GameSessionTypeEnum.Guest) {
             // send request to server
-            GameEvents.dispatch("rSetSquare",index)
+            GameEvents.dispatch("rSetSquare", index)
             return;
         }
 
 
         // check if is player's turn
-        if (!this.isplayer_turn){return}
+        if (!this.isplayer_turn) {
+            return
+        }
 
         // Check if index is alr used
-        if (getSquareByIndex(index).dataset.state!=0){return;}
+        if (getSquareByIndex(index).dataset.state != 0) {
+            return;
+        }
 
         // dispatch event (sent to guest)
-        GameEvents.dispatch("setSquare",index,2)
+        GameEvents.dispatch("setSquare", index, 2)
 
         // change gui square state
-        setSquareState(index,1)
+        setSquareState(index, 1)
 
         // After player's turn, disable all other buttons that have not been selected
         for (let i = 0; i < 9; i++) {
-            let t =getSquareByIndex(i)
-            if (t.dataset.state == 0){
-                t.disabled=true
+            let t = getSquareByIndex(i)
+            if (t.dataset.state == 0) {
+                t.disabled = true
             }
         }
 
         // Check if win.
-        if (this.check_win()){
+        if (this.check_win()) {
             // Add 1 score to player
-            this.gameInfo.scores[0]+=1
+            this.gameInfo.scores[0] += 1
             this.end_protocol(GameEndReasons.is_won)
             return;
-        }
-        else if(this.check_tie()){
+        } else if (this.check_tie()) {
             this.end_protocol(GameEndReasons.is_tied)
             return;
         }
 
-        this.isplayer_turn=false
-        GameEvents.dispatch("changeTurn",this.isplayer_turn)
+        this.isplayer_turn = false
+        GameEvents.dispatch("changeTurn", this.isplayer_turn)
 
         // if singleplayer, call "AI"
-        if (this.gameInfo.gameType==GameSessionTypeEnum.Singleplayer){gameAiChoose()}
-
+        if (this.gameInfo.gameType == GameSessionTypeEnum.Singleplayer) {
+            gameAiChoose()
+        }
 
 
     }
 
-    end_protocol(reason){
+    end_protocol(reason) {
         this.gameInfo.updatemenu()
         setAllSquareDisabled()
-        this.isInRound=false
+        this.isInRound = false
         RoundControlButton.setNew()
 
-        if (reason==GameEndReasons.quit){
+        if (reason == GameEndReasons.quit) {
             this.reset()
             this.end()
             return
         }
-
-
 
 
         setTimeout(() => {
@@ -358,79 +380,73 @@ class GameSession {
 
     }
 
-    reset(){
+    reset() {
         // Reset state of the grid squares.
         for (let i = 0; i < tableSquares.length; i++) {
-            let t= getSquareByIndex(i)
-            t.dataset.state=0
+            let t = getSquareByIndex(i)
+            t.dataset.state = 0
         }
     }
 
-    end(){
+    end() {
         RoundControlButton.setNone()
-        document.getElementById("stopgameButton").disabled=true
+        document.getElementById("stopgameButton").disabled = true
 
-        currentSession=null
+        currentSession = null
 
         // If game type is hosting
-        if (this.gameInfo.gameType === GameSessionTypeEnum.Hosting){
+        if (this.gameInfo.gameType === GameSessionTypeEnum.Hosting) {
             console.log("Gametype is hosting, stopping host")
             stopNetworking()
         }
 
         // disable round control
         this.gameInfo.resetMenu()
-        this.gameInfo=null
+        this.gameInfo = null
 
         delete this
     }
 
-    newRound(_isplayerturn=true){
+    newRound(_isplayerturn = true) {
 
         this.reset()
 
         // Enable squares if is player turn
         setAllSquareDisabled(!_isplayerturn)
 
-        if (this.gameInfo.gameType==GameSessionTypeEnum.Guest){return}
+        if (this.gameInfo.gameType == GameSessionTypeEnum.Guest) {
+            return
+        }
 
-        this.isplayer_turn=_isplayerturn
-        this.isInRound=true
+        this.isplayer_turn = _isplayerturn
+        this.isInRound = true
         // Change text on roundControlButton
         RoundControlButton.setQuit()
 
-        this.gameInfo.no_rounds+=1
+        this.gameInfo.no_rounds += 1
 
         this.gameInfo.updatemenu()
 
-        if (this.gameInfo.gameType==GameSessionTypeEnum.Hosting){
-            GameEvents.dispatch("newRound",this)
+        if (this.gameInfo.gameType == GameSessionTypeEnum.Hosting) {
+            GameEvents.dispatch("newRound", this)
         }
     }
 }
 
 
-
-
-
 var currentSession = null
 
 
-
-
-
-
-function startgame(session_type){
+function startgame(session_type) {
     // playType: 0-singleplayer 1-Host&Play 2-joinGame
     // Creates a new session
 
 
-    console.log("Starting game session of type: ",session_type)
+    console.log("Starting game session of type: ", session_type)
 
-    if (currentSession!=null){
+    if (currentSession != null) {
         currentSession.end_protocol(GameEndReasons.quit)
     }
-
 
 
     currentSession = new GameSession()
@@ -439,50 +455,49 @@ function startgame(session_type){
 
 
     // if hosting session, set server ip to self.
-    if (session_type==GameSessionTypeEnum.Hosting){
+    if (session_type == GameSessionTypeEnum.Hosting) {
         // todo, set peer id
-        currentSession.gameInfo.serverPeerId=null
+        currentSession.gameInfo.serverPeerId = null
         currentSession.gameInfo.is_host = true
-    }
-    else if (session_type!=GameSessionTypeEnum.Guest)
-    {
+    } else if (session_type != GameSessionTypeEnum.Guest) {
         // Enable round control button
         RoundControlButton.setNew()
     }
 
 
-    document.getElementById("stopgameButton").disabled=false
+    document.getElementById("stopgameButton").disabled = false
     openGameInfoMenu()
 
     return currentSession
 }
 
 
+function roundControlButtonCallback() {
+    if (currentSession == null) {
+        return
+    }
 
-
-
-function roundControlButtonCallback(){
-    if (currentSession == null){return}
-
-    if (currentSession.isInRound){
-        if (!confirm("Are you sure you want to quit?")){
+    if (currentSession.isInRound) {
+        if (!confirm("Are you sure you want to quit?")) {
             return
         }
         currentSession.end_protocol(GameEndReasons.is_lose)
-    }else{
+    } else {
         currentSession.newRound()
     }
 }
 
 
-function stopSessionButton(){
-    if (currentSession == null){return}
-
-    if (!confirm("Are you sure you want to quit this session?")){
+function stopSessionButton() {
+    if (currentSession == null) {
         return
     }
 
-    if (currentSession.gameType==GameSessionTypeEnum.Hosting){
+    if (!confirm("Are you sure you want to quit this session?")) {
+        return
+    }
+
+    if (currentSession.gameType == GameSessionTypeEnum.Hosting) {
         stopNetworking()
     }
 

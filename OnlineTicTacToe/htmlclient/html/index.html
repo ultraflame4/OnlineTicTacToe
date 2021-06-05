@@ -26,18 +26,18 @@
             <button type="button" id="menuGameButton" class="menuButton" data-state="inactive"
                     onclick="openGameInfoMenu()">Game
             </button>
-    
+            
             <button type="button" id="menuHostButton" class="menuButton" data-state="inactive"
                     onclick="openHostMenu()">Host
             </button>
-    
-    
+            
+            
             <button type="button" id="menuJoinButton" class="menuButton" data-state="inactive"
                     onclick="openJoinMenu()">Join
             </button>
-
+        
         </div>
-
+        
         <!-- Main Menu Page -->
         <div id="MainMenuPage" class="menuPage" hidden="hidden">
             <div class="row">
@@ -48,21 +48,22 @@
                 <h1 class="MainMenuLabel" for="MMPlay">Singleplayer</h1>
                 <button type="button" id="MMPlay" class="fwbutton playbutton" onclick="startgame(0)">Play</button>
             </div>
-        
+            
             <div class="row">
                 <h1 class="MainMenuLabel">Multiplayer</h1>
                 <button type="button" id="MMJoin" class="fwbutton" onclick="openJoinMenu()">Join Game</button>
-            
+                
                 <button type="button" id="MMHost" class="fwbutton" onclick="openHostMenu()">Host & Play</button>
             </div>
         </div>
-
-
+        
+        
         <!-- Game info menu page -->
         <div id="GameInfoMenuPage" class="menuPage" hidden="hidden">
-        
+            
             <div class="row">
                 <label class="label-input info-label" for="gmmserverpeerid">Server Peer Id</label>
+                
                 <input class="input-label info-value" type="text" id="gmmserverpeerid" value="N/A" disabled>
             </div>
             
@@ -74,35 +75,41 @@
                 <h1 class="MainMenuLabel" style="font-size: 4vmin">Player Scores:</h1>
                 <div class="row" style="padding-left: 1em">
                     <div class="column" style="width: 50%">
-                        <div id="gameInfoPlayerName" class="row MainMenuLabel" style="font-size: 4vmin;text-align:right">You</div>
-                        <div id="gameInfoPlayerScore" class="row MainMenuLabel" style="text-align:right;color: #63f760">0</div>
+                        <div id="gameInfoPlayerName" class="row MainMenuLabel"
+                             style="font-size: 4vmin;text-align:right">You
+                        </div>
+                        <div id="gameInfoPlayerScore" class="row MainMenuLabel" style="text-align:right;color: #63f760">
+                            0
+                        </div>
                     </div>
                     <div class="column" style="width: 50%">
                         <div id="gameInfoEnemyName" class="row MainMenuLabel" style="font-size: 4vmin">Enemy</div>
                         <div id="gameInfoEnemyScore" class="row MainMenuLabel" style="color: #ff0000">0</div>
-                        
+                    
                     </div>
                 </div>
             </div>
             <div class="row">
-                <button class="fwbutton" id="roundControlbutton" onclick="roundControlButtonCallback()" disabled>N/A</button>
+                <button class="fwbutton" id="roundControlbutton" onclick="roundControlButtonCallback()" disabled>N/A
+                </button>
+                
                 <button class="fwbutton" id="stopgameButton" onclick="stopSessionButton()" disabled>End Session</button>
             </div>
         </div>
-
-
-
+        
+        
         <!-- Host Menu Page -->
         <div id="HostMenuPage" class="menuPage" hidden="hidden">
             <div class="row">
                 <!-- todo, place the hosting info and mangement utilities ui here. eg, in waiting rooms, banning people, allowing spectators -->
             </div>
             <div class="row">
-                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="hostControlButton()">Host Game</button>
+                <button type="button" class="fwbutton playbutton" id="HMhost" onclick="hostControlButton()">Host Game
+                </button>
             </div>
         </div>
-
-
+        
+        
         <!-- Join Menu Page -->
         <div id="joinMenuPage" class="menuPage" hidden="hidden">
             <div class="row">
@@ -110,20 +117,18 @@
                 <input class="input-label" type="text" id="serverpeerid" placeholder="Enter the server ip address">
             </div>
             <div class="row">
-                <button class="fwbutton playbutton" id="joinServer" type="button" onclick="joinServer()" >Join
+                <button class="fwbutton playbutton" id="joinServer" type="button" onclick="joinServer()">Join
                 </button>
             </div>
         
         </div>
-        
-
-
+    
     
     </div>
 </div>
 <footer>
     <p>Creator: ultr42 | Github: <a href="https://github.com/ultraflame4">github.com/ultraflame4</a>
-        | Website: <a href="https://ultraflame4.github.io/">ultraflame4.github.io/</a></p>
+       | Website: <a href="https://ultraflame4.github.io/">ultraflame4.github.io/</a></p>
 </footer>
 </body>
 </html>

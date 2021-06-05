@@ -52,20 +52,20 @@ function getSquareByIndex(index) {
 
 }
 
-function setSquareState(index,state){
+function setSquareState(index, state) {
     getSquareByIndex(index).dataset.state = state
-    console.log("updated",index, state)
+    console.log("updated", index, state)
 }
 
 function squareClick(squareTag) {
-    if (currentSession!=null) {
+    if (currentSession != null) {
         var index = squareTag.dataset.index
         currentSession.square_click_callback(index)
     }
 }
 
-function setAllSquareDisabled(disabled=true){
+function setAllSquareDisabled(disabled = true) {
     for (let i = 0; i < 9; i++) {
-        getSquareByIndex(i).disabled=disabled
+        getSquareByIndex(i).disabled = disabled
     }
 }
