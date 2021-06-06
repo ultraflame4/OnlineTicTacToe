@@ -23,32 +23,42 @@ function generateSquare(index) {
 
 var tableSquares = []
 
-function generateGridTable() {
+// function generateGridTable() {
+//
+//     tableSquares = []
+//     var gridTable = document.getElementById("gridTable")
+//
+//     for (i = 0; i < 9; i++) {
+//         let s = generateSquare(i.toString())
+//
+//         tableSquares.push(s)
+//         gridTable.appendChild(s)
+//
+//         var spacer = document.createElement('div')
+//         if ((i + 1) % 3 == 0 && i > 0) {
+//             gridTable.appendChild(document.createElement('br'))
+//             spacer.className = "gridSquareSpacerV"
+//         } else {
+//             spacer.className = "gridSquareSpacerH"
+//         }
+//         if (i < 8) {
+//             gridTable.appendChild(spacer)
+//         }
+//     }
+// }
 
-    tableSquares = []
-    var gridTable = document.getElementById("gridTable")
 
-    for (i = 0; i < 9; i++) {
-        let s = generateSquare(i.toString())
-
-        tableSquares.push(s)
-        gridTable.appendChild(s)
-
-        var spacer = document.createElement('div')
-        if ((i + 1) % 3 == 0 && i > 0) {
-            gridTable.appendChild(document.createElement('br'))
-            spacer.className = "gridSquareSpacerV"
-        } else {
-            spacer.className = "gridSquareSpacerH"
-        }
-        if (i < 8) {
-            gridTable.appendChild(spacer)
-        }
+function getGridTableSquares(){
+    tableSquares=[]
+    var squares = document.getElementsByClassName("gridTableSquare")
+    for (let item of squares){
+        item.setAttribute("onclick","squareClick(this)")
+        tableSquares.splice(item.dataset.index,0,item)
     }
+
 }
 
-
-// document.addEventListener("DOMContentLoaded", generateGridTable)
+document.addEventListener("DOMContentLoaded", getGridTableSquares)
 
 function getSquareByIndex(index) {
     return tableSquares[index]

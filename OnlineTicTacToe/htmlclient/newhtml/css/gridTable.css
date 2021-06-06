@@ -36,3 +36,7 @@
 .gridTableSquare[data-state="2"] {
     background-color: #ff0000;
 }
+
+.gridTableSquare:disabled{
+    background-color: #2C2C2C;
+}
