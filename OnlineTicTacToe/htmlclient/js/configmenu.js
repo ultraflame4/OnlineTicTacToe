@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 function resetMenuButtons() {
-    let menuButtons = document.getElementsByClassName("menuButton")
+    let menuButtons = document.getElementsByClassName("configMenuTab")
     for (let i = 0; i < menuButtons.length; i++) {
         t = menuButtons.item(i)
         t.dataset.state = "inactive"

@@ -1,0 +1,35 @@
+
+#configMenuContainer{
+    width: 90vmin;
+    height: 100%;
+    padding-top: 1em;
+    width: 90vmin;
+
+}
+
+#configMenuTabContainer{
+    width: 100%;
+    height: 10vmin;
+    justify-content: space-evenly;
+}
+
+.configMenuTab{
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+    background-color: #434343;
+    font-size: 1.3em;
+    height: 100%;
+    width:24%
+
+
+}
+
+.configMenuTab:hover{
+    background-color: #333333;
+}
+
+.configMenuTab[data-state="active"]{
+    background-color: #303030;
+}
