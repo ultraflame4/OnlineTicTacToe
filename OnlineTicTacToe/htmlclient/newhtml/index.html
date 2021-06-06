@@ -43,19 +43,35 @@
             </div>
             
             <div class="column" id="configMenuContentContainer">
-                <div id="MainMenuPage" class="menuPage" hidden="hidden">
+                <div id="MainMenuPage" class="menuPage column" hidden="hidden">
+                    <br>
+                    <div class="row" style="justify-items: center;align-items: center">
+                        <label>Nickname: </label>
+                        <input type="text" id="username_in" placeholder="Enter name" value="Unnamed player" style="flex-grow: 1;height: 4em">
+                    </div>
+                    <h1>Singleplayer</h1>
+                    <button type="button" id="MMPlay" class="mainmenubutton" onclick="startgame(0)">Play</button>
+                    
+                    <h1>Multiplayer</h1>
+                    
+                    <button type="button" id="MMJoin" class="mainmenubutton" onclick="openJoinMenu()">Join Game</button>
+                    <br>
+                    <button type="button" id="MMHost" class="mainmenubutton" onclick="openHostMenu()">Host & Play</button>
                 </div>
                 
                 <!-- Game info menu page -->
                 <div id="GameInfoMenuPage" class="menuPage" hidden="hidden">
+                    test1
                 </div>
                 
                 <!-- Host Menu Page -->
                 <div id="HostMenuPage" class="menuPage" hidden="hidden">
+                    test2
                 </div>
                 
                 <!-- Join Menu Page -->
                 <div id="joinMenuPage" class="menuPage" hidden="hidden">
+                    test3
                 </div>
             </div>
         </div>

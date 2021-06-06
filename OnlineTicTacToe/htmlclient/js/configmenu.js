@@ -17,7 +17,7 @@ function resetMenuPages() {
     let menuPages = document.getElementsByClassName("menuPage")
     for (let i = 0; i < menuPages.length; i++) {
         t = menuPages.item(i)
-        t.setAttribute("hidden", "hidden")
+        t.style.display="none"
 
     }
 }
@@ -27,7 +27,7 @@ function openMenu(menuId, tagId) {
     resetMenuPages();
     document.getElementById(tagId).dataset.state = "active"
     if (menuId != "none")
-        document.getElementById(menuId).removeAttribute("hidden")
+        document.getElementById(menuId).style.display="flex"
 }
 
 

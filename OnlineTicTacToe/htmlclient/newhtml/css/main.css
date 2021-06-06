@@ -8,6 +8,24 @@
     border: none;
 }
 
+button{
+    background-color: #434343;
+}
+
+button:hover{
+    background-color: #333333;
+}
+
+button:active{
+    background-color: #2C2C2C;
+}
+
+h1{
+    margin-top: .5em;
+    margin-bottom: .5em;
+    font-size: 2em;
+}
+
 body{
     background-color: black;
     color: white;
