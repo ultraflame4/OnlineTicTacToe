@@ -1,0 +1,38 @@
+
+
+#gridTableContainer{
+    height: 90vmin;
+    width: 90vmin;
+    background-color: #000000; /*change ltr*/
+    justify-content: space-evenly;
+}
+
+.gridTableRow{
+    min-height: 32%;
+    justify-content: space-evenly;
+}
+
+.gridTableSquare{
+    background-color: #434343;
+    color: #fcfcfc;
+
+    width: 32%;
+    height: 100%;
+}
+
+.gridTableSquare[data-state="0"]:hover {
+    background-color: #b9ffb8;
+}
+
+
+.gridTableSquare[data-state="0"]:active {
+    background-color: #4fd44c;
+}
+
+.gridTableSquare[data-state="1"] {
+    background-color: #63f760;
+}
+
+.gridTableSquare[data-state="2"] {
+    background-color: #ff0000;
+}

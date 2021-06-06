@@ -1,0 +1,26 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: .95em;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-weight: bold;
+    color: inherit;
+    border: none;
+}
+
+body{
+    background-color: black;
+    color: white;
+}
+
+.column{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.row{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+}

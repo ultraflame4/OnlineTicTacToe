@@ -6,6 +6,8 @@ Grid Square States:
  */
 
 
+// New html branch: no need to generate squares html. Only need to retriece the squares from gridTableContainer
+
 function generateSquare(index) {
     let sqr = document.createElement("button")
     sqr.type = "button"
@@ -45,7 +47,8 @@ function generateGridTable() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", generateGridTable)
+
+// document.addEventListener("DOMContentLoaded", generateGridTable)
 
 function getSquareByIndex(index) {
     return tableSquares[index]

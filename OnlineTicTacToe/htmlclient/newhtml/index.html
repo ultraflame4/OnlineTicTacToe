@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OnlineTicTacToe</title>
+    
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/gridTable.css">
+    <link rel="stylesheet" href="css/configmenu.css">
+    
+    <script src="https://unpkg.com/peerjs@1.3.1/dist/peerjs.min.js"></script>
+    <script type="text/javascript" src="../js/gridTable.js"></script>
+    <script type="text/javascript" src="../js/configmenu.js"></script>
+    <script type="text/javascript" src="../js/gameManager.js"></script>
+    <script type="text/javascript" src="../js/network.js"></script>
+</head>
+<body>
+<div class="column" style="width: 100%;height: 100vh">
+    <div id="content_container" class="row" style="flex-grow: 1;align-items: center;flex-wrap: wrap">
+        <div id="gridTableContainer" class="column">
+            <div class="row gridTableRow">
+                <button class="gridTableSquare" data-state="0" data-index="0">0</button>
+                <button class="gridTableSquare" data-state="0" data-index="1">1</button>
+                <button class="gridTableSquare" data-state="0" data-index="2">2</button>
+            </div>
+            <div class="row gridTableRow">
+                <button class="gridTableSquare" data-state="0" data-index="3">3</button>
+                <button class="gridTableSquare" data-state="0" data-index="4">4</button>
+                <button class="gridTableSquare" data-state="0" data-index="5">5</button>
+            </div>
+            <div class="row gridTableRow">
+                <button class="gridTableSquare" data-state="0" data-index="6">6</button>
+                <button class="gridTableSquare" data-state="0" data-index="6">7</button>
+                <button class="gridTableSquare" data-state="0" data-index="7">8</button>
+            </div>
+        </div>
+        <div id="configMenuContainer" class="column">
+            <div class="row" id="configMenuTabContainer">
+                <div class="configMenuTab" id="menuMainButton" data-state="inactive" onclick="openMainMenu()">Main</div>
+                <div class="configMenuTab" id="menuGameButton" data-state="inactive" onclick="openGameInfoMenu()">Game</div>
+                <div class="configMenuTab" id="menuHostButton" data-state="inactive" onclick="openHostMenu()">Host</div>
+                <div class="configMenuTab" id="menuJoinButton" data-state="inactive" onclick="openJoinMenu()">Join</div>
+            </div>
+            
+            <div class="column" id="configMenuContentContainer">
+                <div id="MainMenuPage" class="menuPage" hidden="hidden">
+                </div>
+                
+                <!-- Game info menu page -->
+                <div id="GameInfoMenuPage" class="menuPage" hidden="hidden">
+                </div>
+                
+                <!-- Host Menu Page -->
+                <div id="HostMenuPage" class="menuPage" hidden="hidden">
+                </div>
+                
+                <!-- Join Menu Page -->
+                <div id="joinMenuPage" class="menuPage" hidden="hidden">
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer style="justify-content: center;margin:1em 1em 1em 1em;color: #434343" class="row">
+        <p>Creator: ultr42 | Github: <a href="https://github.com/ultraflame4">github.com/ultraflame4</a>
+           | Website: <a href="https://ultraflame4.github.io/">ultraflame4.github.io/</a></p></footer>
+</div>
+</body>
+</html>
