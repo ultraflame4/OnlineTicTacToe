@@ -1,0 +1,43 @@
+
+#gridTable {
+    width: fit-content;
+
+    padding: 2vmin;
+
+}
+
+.gridSquare {
+    background-color: #a3a3a3;
+    color: #fcfcfc;
+    padding: 12vmin;
+
+
+}
+
+.gridSquare[data-state="0"]:hover {
+    background-color: #b9ffb8;
+}
+
+
+.gridSquare[data-state="0"]:active {
+    background-color: #4fd44c;
+}
+
+.gridSquare[data-state="1"] {
+    background-color: #63f760;
+}
+
+.gridSquare[data-state="2"] {
+    background-color: #ff0000;
+}
+
+.gridSquareSpacerH {
+    display: inline;
+    margin-left: 1vmin;
+}
+
+.gridSquareSpacerV {
+
+    margin-top: 1vmin;
+
+}
