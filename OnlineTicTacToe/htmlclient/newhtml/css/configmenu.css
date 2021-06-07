@@ -5,6 +5,7 @@
     padding-top: 1em;
     width: 90vmin;
     padding-left: .5em;
+    height: 100%;
 
 }
 
@@ -36,9 +37,16 @@
     background-color: #2C2C2C;
 }
 
-label{
-    font-size: 1.3em;
+
+#configMenuContentContainer{
+    height: 100%;
 }
+
+.menuPage{
+    height: 100%;
+}
+
+
 
 input{
     margin-left: 1em;
