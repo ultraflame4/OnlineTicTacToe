@@ -47,7 +47,7 @@
                     <br>
                     <div class="row" style="justify-items: center;align-items: center">
                         <label>Nickname: </label>
-                        <input type="text" id="username_in" placeholder="Enter name" value="Unnamed player" style="flex-grow: 1;height: 4em">
+                        <input type="text" id="username_in" placeholder="Enter name" value="Unnamed player" style="flex-grow: 1;height: 7vmin">
                     </div>
                     <h1>Singleplayer</h1>
                     <button type="button" id="MMPlay" class="mainmenubutton" onclick="startgame(0)">Play</button>
@@ -103,8 +103,13 @@
                 </div>
                 
                 <!-- Join Menu Page -->
-                <div id="joinMenuPage" class="menuPage" hidden="hidden">
-                    test3
+                <div id="joinMenuPage" class="menuPage column" hidden="hidden">
+                    <div class="row" style="align-items: center">
+                        <label>Server Peer Id</label>
+                        <input type="text" id="serverpeerid" placeholder="Enter the server peer id" style="height: 7vmin;flex-grow: 1">
+                    </div>
+                    <button id="joinServer" style="margin-top: 2vmin;height: 8vmin" type="button" onclick="joinServer()">Join</button>
+
                 </div>
             </div>
         </div>
