@@ -54,6 +54,7 @@ function getGridTableSquares(){
     for (let item of squares){
         item.setAttribute("onclick","squareClick(this)")
         tableSquares.splice(item.dataset.index,0,item)
+        console.log("Added gridsquare ",item.textContent," to tableSquare array as index:",item.dataset.index)
     }
 
 }
