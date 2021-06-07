@@ -1,0 +1,78 @@
+
+#configmenu {
+    display: inline;
+    padding: 3vmin;
+    height: fit-content;
+    width: 115vmin;
+}
+
+
+.menuButton[data-state="active"] {
+    background-color: #cdcdcd;
+    padding: 3vmin 5vmin;
+
+}
+
+.menuButton {
+    margin-bottom: 3vmin;
+}
+
+.menuButton[data-state="inactive"]:hover {
+    padding: 2.5vmin 5vmin;
+}
+
+.label-input {
+    float: left;
+    padding: 2vmin 4vmin;
+    font-size: 4vmin;
+}
+
+
+/*Main Menu*/
+
+/* Refers to full width button. buttons that take the whole with of the menu*/
+.fwbutton {
+    margin-bottom: 1vmin;
+    margin-top: 1vmin;
+    width: 100%;
+}
+
+.MainMenuLabel {
+    font-weight: bold;
+    font-size: 5vmin;
+    padding: 2vmin;
+    padding-left: 0;
+
+
+}
+
+
+/*Join menu*/
+
+.input-label {
+
+    width: 70vmin;
+    height: 4vmin;
+    font-size: 3vmin;
+    float: right;
+    padding: 2vmin;
+    margin: 1vmin;
+    border: #454545;
+
+
+}
+
+
+/*Game Menu*/
+.info-label {
+    font-size: 3.5vmin;
+    padding-right: 2vmin;
+    margin-right: 1vmin;
+}
+
+.info-value {
+    text-align: center;
+    font-size: 2.5vmin;
+    padding: 1.5vmin;
+
+}
