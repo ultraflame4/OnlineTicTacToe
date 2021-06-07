@@ -13,9 +13,11 @@
 }
 
 .gridTableSquare{
+    flex-grow: 0;
+    margin: 0;
+    padding: 0;
     background-color: #434343;
     color: #fcfcfc;
-
     width: 32%;
     height: 100%;
 }

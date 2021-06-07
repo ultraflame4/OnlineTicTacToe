@@ -60,8 +60,41 @@
                 </div>
                 
                 <!-- Game info menu page -->
-                <div id="GameInfoMenuPage" class="menuPage" hidden="hidden">
-                    test1
+                <div id="GameInfoMenuPage" class="menuPage column" hidden="hidden">
+                    <div class="row" style="justify-items: center;align-items: center;">
+                        <label>Server Peer Id: </label>
+                        <button id="gmmserverpeerid" style="flex-grow: 1;margin-left: 1em" onclick="prompt('Copy Server Peer Id: ',this.childNodes[0].nodeValue.trim())" class="tooltip">
+                            N/A
+                            <span class="tooltiptext">Click to Copy</span>
+                        </button>
+
+                    </div>
+                    <br>
+                    <div class="row">
+                        <h1>Game Round: <span id="gameinforound">N/A</span></h1>
+                    </div>
+    
+                    <div class="column" style="height: 30vmin">
+                        <h1>Player Scores:</h1>
+                        <div class="row" style="justify-content: space-between">
+                            <div class="column" style="width: 49%;align-items: flex-end">
+                                <div id="gameInfoPlayerName" style="font-size: 3vmin">You
+                                </div>
+                                <div id="gameInfoPlayerScore" style="color: #63f760;font-size: 2.9vmin">
+                                    0
+                                </div>
+                            </div>
+                            <div class="column" style="width: 49%">
+                                <div id="gameInfoEnemyName" style="font-size: 3vmin">Enemy</div>
+                                <div id="gameInfoEnemyScore" style="color: #ff0000;font-size: 2.9vmin">0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <button id="roundControlbutton" onclick="roundControlButtonCallback()" disabled style="height: 10vmin">N/A</button>
+                    <br>
+                    <button  id="stopgameButton" onclick="stopSessionButton()" style="height: 10vmin;" disabled>End Session</button>
+                    
                 </div>
                 
                 <!-- Host Menu Page -->
